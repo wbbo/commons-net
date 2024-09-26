@@ -16,20 +16,25 @@
  */
 package org.apache.commons.net.tftp;
 
-import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.tftp.TFTPServer.ServerMode;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.nio.file.Files;
+import java.time.Duration;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test the TFTP Server and TFTP Client by creating some FILES in the system temp folder and then uploading and downloading them.
  */
-public class TFTPTransferChineseFileNameTest extends TestCase {
+public class TFTPTransferChineseFileNameTest {
     private static final int SERVER_PORT = 6902;
     private static TFTPServer tftpS;
     private static final File SERVER_DIR = FileUtils.getTempDirectory();
@@ -38,8 +43,8 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
 
     static int testsLeftToRun = 9; // TODO Nasty hack.
 
-    // only want to do this once...
-    static {
+    @BeforeAll
+    static void setUp() {
         try {
             FILES[0] = createFile(new File(SERVER_DIR, FILE_PREFIX + "空.txt"), 0);
             FILES[1] = createFile(new File(SERVER_DIR, FILE_PREFIX + "小.txt"), 1);
@@ -56,7 +61,6 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /*
@@ -76,8 +80,9 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         return FileUtils.contentEquals(a, b);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+
+    @AfterAll
+    protected static void tearDown() throws Exception {
         testsLeftToRun--;
         if (testsLeftToRun <= 0) {
             if (tftpS != null) {
@@ -87,21 +92,22 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
                 file.delete();
             }
         }
-        super.tearDown();
     }
 
+    @Test
     public void testASCIIDownloads() {
         // test with the smaller FILES
         for (int i = 0; i < 6; i++) {
             try {
                 testDownload(TFTP.ASCII_MODE, FILES[i]);
             } catch (final IOException e) {
-                fail("Entry " + i + " Error " + e.toString());
+                Assertions.fail("Entry " + i + " Error " + e);
             }
 
         }
     }
 
+    @Test
     public void testASCIIUploads() throws Exception {
         // test with the smaller FILES
         for (int i = 0; i < 6; i++) {
@@ -109,6 +115,7 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         }
     }
 
+    @Test
     public void testDiscardPackets() throws IOException {
         try (TFTP tftp = new TFTP()) {
             assertThrows(NullPointerException.class, tftp::discardPackets);
@@ -126,31 +133,33 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
             }
         }) {
             tftp.open();
-            tftp.setSoTimeout(2000);
+            tftp.setSoTimeout(Duration.ofMillis(2000));
 
             final File out = new File(SERVER_DIR, FILE_PREFIX + "download");
 
             // cleanup old failed runs
             out.delete();
-            assertFalse("Couldn't clear output location", out.exists());
+            Assertions.assertFalse(out.exists(), "Couldn't clear output location");
 
             try (FileOutputStream output = new FileOutputStream(out)) {
                 tftp.receiveFile(file.getName(), mode, output, "localhost", SERVER_PORT);
             }
 
-            assertTrue("file not created", out.exists());
-            assertTrue("FILES not identical on file " + file, contentEquals(out, file));
+            Assertions.assertTrue(out.exists(), "file not created");
+            Assertions.assertTrue(contentEquals(out, file), "FILES not identical on file " + file);
 
             // delete the downloaded file
             out.delete();
         }
     }
 
+    @Test
     public void testGetModeName() {
-        assertNotNull(TFTP.getModeName(0));
-        assertNotNull(TFTP.getModeName(1));
+        Assertions.assertNotNull(TFTP.getModeName(0));
+        Assertions.assertNotNull(TFTP.getModeName(1));
     }
 
+    @Test
     public void testHugeDownloads() throws Exception {
         // test with the smaller FILES
         for (int i = 5; i < FILES.length; i++) {
@@ -158,12 +167,14 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         }
     }
 
+    @Test
     public void testHugeUploads() throws Exception {
         for (int i = 5; i < FILES.length; i++) {
             testUpload(TFTP.BINARY_MODE, FILES[i]);
         }
     }
 
+    @Test
     public void testSend() throws IOException {
         try (TFTP tftp = new TFTP()) {
             tftp.open();
@@ -171,6 +182,7 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         }
     }
 
+    @Test
     public void testTFTPBinaryDownloads() throws Exception {
         // test with the smaller FILES
         for (int i = 0; i < 6; i++) {
@@ -178,6 +190,7 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         }
     }
 
+    @Test
     public void testTFTPBinaryUploads() throws Exception {
         // test with the smaller FILES
         for (int i = 0; i < 6; i++) {
@@ -185,16 +198,17 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
         }
     }
 
+
     private void testUpload(final int mode, final File file) throws Exception {
         // Create our TFTP instance to handle the file transfer.
         try (TFTPClient tftp = new TFTPClient()) {
             tftp.open();
-            tftp.setSoTimeout(2000);
+            tftp.setSoTimeout(Duration.ofMillis(2000));
 
             final File in = new File(SERVER_DIR, FILE_PREFIX + "upload");
             // cleanup old failed runs
             in.delete();
-            assertFalse("Couldn't clear output location", in.exists());
+            Assertions.assertFalse(in.exists(), "Couldn't clear output location");
 
             try (FileInputStream fis = new FileInputStream(file)) {
                 tftp.sendFile(in.getName(), mode, fis, "localhost", SERVER_PORT);
@@ -203,9 +217,8 @@ public class TFTPTransferChineseFileNameTest extends TestCase {
             // need to give the server a bit of time to receive our last packet, and
             // close out its file buffers, etc.
             Thread.sleep(100);
-            assertTrue("file not created", in.exists());
-            assertTrue("FILES not identical on file " + file, contentEquals(file, in));
-
+            Assertions.assertTrue(in.exists(), "file not created");
+            Assertions.assertTrue(contentEquals(file, in), "FILES not identical on file " + file);
             in.delete();
         }
     }
