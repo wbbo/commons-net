@@ -16,6 +16,7 @@
  */
 package org.apache.commons.net.tftp;
 
+import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.tftp.TFTPServer.ServerMode;
 import org.junit.jupiter.api.AfterAll;
@@ -61,6 +62,7 @@ public class TFTPTransferChineseFileNameTest {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+
     }
 
     /*
@@ -92,6 +94,7 @@ public class TFTPTransferChineseFileNameTest {
                 file.delete();
             }
         }
+        super.tearDown();
     }
 
     @Test

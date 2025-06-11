@@ -100,7 +100,6 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
 
         int index = 2;
         final int length = datagram.getLength();
-        int length = datagram.getLength();
         final byte[] fileNameBytes = new  byte[length];
 
         while (index < length && data[index] != 0) {
