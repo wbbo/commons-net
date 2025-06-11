@@ -16,7 +16,6 @@
  */
 package org.apache.commons.net.tftp;
 
-import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.tftp.TFTPServer.ServerMode;
 import org.junit.jupiter.api.AfterAll;
@@ -29,7 +28,6 @@ import java.net.InetAddress;
 import java.nio.file.Files;
 import java.time.Duration;
 
-import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -94,7 +92,6 @@ public class TFTPTransferChineseFileNameTest {
                 file.delete();
             }
         }
-        super.tearDown();
     }
 
     @Test
