@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ import java.net.InetAddress;
  * worry about the internals. Additionally, only very few people should have to care about any of the TFTPPacket classes or derived classes. Almost all users
  * should only be concerned with the {@link org.apache.commons.net.tftp.TFTPClient} class {@link org.apache.commons.net.tftp.TFTPClient#receiveFile
  * receiveFile()} and {@link org.apache.commons.net.tftp.TFTPClient#sendFile sendFile()} methods.
- *
+ * </p>
  *
  * @see TFTPPacket
  * @see TFTPPacketException
@@ -71,7 +71,7 @@ public final class TFTPAckPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the block number of the acknowledgement.
+     * Gets the block number of the acknowledgement.
      *
      * @return The block number of the acknowledgement.
      */

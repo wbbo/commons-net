@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -84,7 +84,6 @@ public class VMSVersioningFTPEntryParser extends VMSFTPEntryParser {
      * to remove the duplicates.
      *
      * @param original Original list
-     *
      * @return Original list purged of duplicates
      */
     @Override
@@ -93,7 +92,7 @@ public class VMSVersioningFTPEntryParser extends VMSFTPEntryParser {
         final ListIterator<String> iter = original.listIterator();
         while (iter.hasNext()) {
             final String entry = iter.next().trim();
-            MatchResult result;
+            final MatchResult result;
             final Matcher matcher = PATTERN.matcher(entry);
             if (matcher.matches()) {
                 result = matcher.toMatchResult();

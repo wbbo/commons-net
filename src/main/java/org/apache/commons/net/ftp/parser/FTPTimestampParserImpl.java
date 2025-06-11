@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,7 +39,7 @@ public class FTPTimestampParserImpl implements FTPTimestampParser, Configurable 
 
     /*
      * List of units in order of increasing significance. This allows the code to clear all units in the Calendar until it reaches the least significant unit in
-     * the parse string. The date formats are analysed to find the least significant unit (e.g. Minutes or Milliseconds) and the appropriate index to the array
+     * the parse string. The date formats are analyzed to find the least significant unit (e.g. Minutes or Milliseconds) and the appropriate index to the array
      * is saved. This is done by searching the array for the unit specifier, and returning the index. When clearing the Calendar units, the code loops through
      * the array until the previous entry. e.g. for MINUTE it would clear MILLISECOND and SECOND
      */
@@ -150,7 +150,7 @@ public class FTPTimestampParserImpl implements FTPTimestampParser, Configurable 
      */
     @Override
     public void configure(final FTPClientConfig config) {
-        DateFormatSymbols dfs;
+        final DateFormatSymbols dfs;
 
         final String languageCode = config.getServerLanguageCode();
         final String shortmonths = config.getShortMonthNames();
@@ -177,49 +177,61 @@ public class FTPTimestampParserImpl implements FTPTimestampParser, Configurable 
     }
 
     /**
-     * @return Returns the defaultDateFormat.
+     * Gets the defaultDateFormat.
+     *
+     * @return the defaultDateFormat.
      */
     public SimpleDateFormat getDefaultDateFormat() {
         return defaultDateFormat;
     }
 
     /**
-     * @return Returns the defaultDateFormat pattern string.
+     * Gets the defaultDateFormat pattern string.
+     *
+     * @return the defaultDateFormat pattern string.
      */
     public String getDefaultDateFormatString() {
         return defaultDateFormat.toPattern();
     }
 
     /**
-     * @return Returns the recentDateFormat.
+     * Gets the recentDateFormat.
+     *
+     * @return the recentDateFormat.
      */
     public SimpleDateFormat getRecentDateFormat() {
         return recentDateFormat;
     }
 
     /**
-     * @return Returns the recentDateFormat.
+     * Gets the recentDateFormat.
+     *
+     * @return the recentDateFormat.
      */
     public String getRecentDateFormatString() {
         return recentDateFormat.toPattern();
     }
 
     /**
-     * @return Returns the serverTimeZone used by this parser.
+     * Gets the serverTimeZone used by this parser.
+     *
+     * @return the serverTimeZone used by this parser.
      */
     public TimeZone getServerTimeZone() {
         return defaultDateFormat.getTimeZone();
     }
 
     /**
-     * @return returns an array of 12 strings representing the short month names used by this parse.
+     * Gets an array of 12 strings representing the short month names used by this parse.
+     *
+     * @return an array of 12 strings representing the short month names used by this parse.
      */
     public String[] getShortMonths() {
         return defaultDateFormat.getDateFormatSymbols().getShortMonths();
     }
 
     /**
-     * @return Returns the lenientFutureDates.
+     * @return the lenientFutureDates.
      */
     boolean isLenientFutureDates() {
         return lenientFutureDates;
@@ -235,7 +247,6 @@ public class FTPTimestampParserImpl implements FTPTimestampParser, Configurable 
      * This method assumes that the server time is the same as the local time.
      *
      * @see FTPTimestampParserImpl#parseTimestamp(String, Calendar)
-     *
      * @param timestampStr The timestamp to be parsed
      * @return a Calendar with the parsed timestamp
      */

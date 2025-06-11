@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,9 +25,23 @@ import org.apache.commons.net.io.Util;
  */
 public class PrintCommandListeners {
 
-    @SuppressWarnings("resource") // No need to close writer on System.out.
+    /**
+     * Creates a new PrintCommandListener on system out.
+     *
+     * @return a new PrintCommandListener on system out.
+     */
     public static PrintCommandListener sysOutPrintCommandListener() {
         return new PrintCommandListener(Util.newPrintWriter(System.out), true);
+    }
+
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major release.
+     */
+    @Deprecated
+    public PrintCommandListeners() {
+        // empty
     }
 
 }

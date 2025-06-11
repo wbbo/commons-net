@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,6 +29,7 @@ import java.io.Writer;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.util.NetConstants;
 
 /**
@@ -39,11 +40,10 @@ import org.apache.commons.net.util.NetConstants;
  * @see CopyStreamListener
  * @see CopyStreamAdapter
  */
-
 public final class Util {
 
     /**
-     * The default buffer size ({@value}) used by {@link #copyStream copyStream } and {@link #copyReader copyReader} and by the copyReader/copyStream methods if
+     * The default buffer size ({@value}) used by {@link #copyStream copyStream} and {@link #copyReader copyReader} and by the copyReader/copyStream methods if
      * a zero or negative buffer size is supplied.
      */
     public static final int DEFAULT_COPY_BUFFER_SIZE = 1024;
@@ -53,15 +53,11 @@ public final class Util {
      *
      * @param closeable the object to close, may be {@code null}
      * @since 3.0
+     * @deprecated Use {@link IOUtils#closeQuietly(Closeable)}.
      */
+    @Deprecated
     public static void closeQuietly(final Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (final IOException e) {
-                // Ignored
-            }
-        }
+        IOUtils.closeQuietly(closeable);
     }
 
     /**
@@ -69,15 +65,11 @@ public final class Util {
      *
      * @param socket the socket to close, may be {@code null}
      * @since 3.0
+     * @deprecated Use {@link IOUtils#closeQuietly(Socket)}.
      */
+    @Deprecated
     public static void closeQuietly(final Socket socket) {
-        if (socket != null) {
-            try {
-                socket.close();
-            } catch (final IOException e) {
-                // Ignored
-            }
-        }
+        IOUtils.closeQuietly(socket);
     }
 
     /**

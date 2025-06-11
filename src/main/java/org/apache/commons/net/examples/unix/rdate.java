@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,7 @@ import org.apache.commons.net.time.TimeTCPClient;
 import org.apache.commons.net.time.TimeUDPClient;
 
 /**
- * This is an example program demonstrating how to use the TimeTCPClient and TimeUDPClient classes. It's very similar to the simple UNIX rdate command. This
+ * This is an example program demonstrating how to use the TimeTCPClient and TimeUDPClient classes. It's very similar to the simple Unix rdate command. This
  * program connects to the default time service port of a specified server, retrieves the time, and prints it to standard output. The default is to use the TCP
  * port. Use the -udp flag to use the UDP port. You can test this program by using the NIST time server at 132.163.135.130 (warning: the IP address may change).
  * <p>

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,13 @@ import java.util.Map;
  * https://lxr.mozilla.org/mozilla/source/grendel/sources/grendel/view/Threader.java</a>
  */
 public class Threader {
+
+    /**
+     * Constructs a new instance.
+     */
+    public Threader() {
+        // empty
+    }
 
     /**
      *
@@ -99,7 +106,8 @@ public class Threader {
         // a parent based on the other entries in that field. Now that we have the actual message, we can
         // throw away the old parent and use this new one
         if (container.parent != null) {
-            NntpThreadContainer rest, prev;
+            NntpThreadContainer rest;
+            NntpThreadContainer prev;
 
             for (prev = null, rest = container.parent.child; rest != null; prev = rest, rest = rest.next) {
                 if (rest == container) {
@@ -152,7 +160,7 @@ public class Threader {
     }
 
     /**
-     * If any two members of the root set have the same subject, merge them. This is to attempt to accomodate messages without References: headers.
+     * If any two members of the root set have the same subject, merge them. This is to attempt to accommodate messages without References: headers.
      *
      * @param root
      */
@@ -207,7 +215,9 @@ public class Threader {
 
         // subjectTable is now populated with one entry for each subject which occurs in the
         // root set. Iterate over the root set, and gather together the difference.
-        NntpThreadContainer prev, c, rest;
+        NntpThreadContainer prev;
+        NntpThreadContainer c;
+        NntpThreadContainer rest;
         for (prev = null, c = root.child, rest = c.next; c != null; prev = c, c = rest, rest = rest == null ? null : rest.next) {
             Threadable threadable = c.threadable;
 
@@ -295,7 +305,9 @@ public class Threader {
      * @param parent
      */
     private void pruneEmptyContainers(final NntpThreadContainer parent) {
-        NntpThreadContainer container, prev, next;
+        NntpThreadContainer container;
+        NntpThreadContainer prev;
+        NntpThreadContainer next;
         for (prev = null, container = parent.child, next = container.next; container != null; prev = container, container = next, next = container == null
                 ? null
                 : container.next) {
@@ -307,13 +319,10 @@ public class Threader {
                 } else {
                     prev.next = container.next;
                 }
-
                 // Set container to prev so that prev keeps its same value the next time through the loop
                 container = prev;
-            }
-
-            // Else if empty, with kids, and (not at root or only one kid)
-            else if (container.threadable == null && (container.parent != null || container.child.next == null)) {
+                // Else if empty, with kids, and (not at root or only one kid)
+            } else if (container.threadable == null && (container.parent != null || container.child.next == null)) {
                 // We have an invalid/expired message with kids. Promote the kids to this level.
                 NntpThreadContainer tail;
                 final NntpThreadContainer kids = container.child;

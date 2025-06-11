@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,7 +74,6 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
      * Convert NTP timestamp hexstring (e.g. "c1a089bd.fc904f6d") to the NTP 64-bit unsigned fixed-point number.
      *
      * @param hexString the string to convert
-     *
      * @return NTP 64-bit timestamp value.
      * @throws NumberFormatException - if the string does not contain a parsable timestamp.
      */
@@ -94,7 +93,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
     }
 
     /**
-     * Constructs a NTP timestamp object and initializes it so that it represents the time at which it was allocated, measured to the nearest millisecond.
+     * Gets an NTP timestamp object and initializes it so that it represents the time at which it was allocated, measured to the nearest millisecond.
      *
      * @return NTP timestamp object set to the current time.
      * @see System#currentTimeMillis()
@@ -111,7 +110,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
      */
 
     /**
-     * Helper method to convert Java time to NTP timestamp object. Note that Java time (milliseconds) by definition has less precision than NTP time
+     * Gets an NTP timestamp object from a Java time. Note that Java time (milliseconds) by definition has less precision than NTP time
      * (picoseconds) so converting Ntptime to Javatime and back to Ntptime loses precision. For example, Tue, Dec 17 2002 09:07:24.810 is represented by a
      * single Java-based time value of f22cd1fc8a, but its NTP equivalent are all values from c1a9ae1c.cf5c28f5 to c1a9ae1c.cf9db22c.
      *
@@ -123,7 +122,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
     }
 
     /**
-     * Converts 64-bit NTP timestamp to Java standard time.
+     * Gets a Java standard time from a 64-bit NTP timestamp.
      *
      * Note that java time (milliseconds) by definition has less precision than NTP time (picoseconds) so converting NTP timestamp to Java time and back to NTP
      * timestamp loses precision. For example, Tue, Dec 17 2002 09:07:24.810 EST is represented by a single Java-based time value of f22cd1fc8a, but its NTP
@@ -196,7 +195,6 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
      * fractional seconds by a decimal point; e.g. c1a089bd.fc904f6d == Tue, Dec 10 2002 10:41:49.986
      *
      * @param ntpTime the 64 bit timestamp
-     *
      * @return NTP timestamp 64-bit long value as hexadecimal string with seconds separated by fractional seconds.
      */
     public static String toString(final long ntpTime) {
@@ -217,8 +215,14 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
      */
     private final long ntpTime;
 
+    /**
+     * Formats dates.
+     */
     private DateFormat simpleFormatter;
 
+    /**
+     * Formats UTC strings.
+     */
     private DateFormat utcFormatter;
 
     /**
@@ -243,7 +247,6 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
      * Constructs a newly allocated NTP timestamp object that represents the value represented by the string in hexdecimal form (e.g. "c1a089bd.fc904f6d").
      *
      * @param hexStamp the hexadecimal timestamp
-     *
      * @throws NumberFormatException - if the string does not contain a parsable timestamp.
      */
     public TimeStamp(final String hexStamp) throws NumberFormatException {
@@ -281,7 +284,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
     }
 
     /**
-     * Converts NTP timestamp to Java Date object.
+     * Gets a Date for an NTP timestamp.
      *
      * @return NTP Timestamp in Java Date
      */
@@ -290,7 +293,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
     }
 
     /**
-     * Returns low-order 32-bits representing the fractional seconds.
+     * Gets the low-order 32-bits representing the fractional seconds.
      *
      * @return fractional seconds represented by this NTP timestamp.
      */
@@ -299,7 +302,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
     }
 
     /**
-     * Returns high-order 32-bits representing the seconds of this NTP timestamp.
+     * Gets the high-order 32-bits representing the seconds of this NTP timestamp.
      *
      * @return seconds represented by this NTP timestamp.
      */
@@ -308,7 +311,7 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
     }
 
     /**
-     * Converts NTP timestamp to Java standard time.
+     * Gets a Java standard time in milliseconds from the NTP timestamp.
      *
      * @return the number of milliseconds since January 1, 1970, 00:00:00 GMT represented by this NTP timestamp value.
      */
@@ -344,6 +347,11 @@ public class TimeStamp implements Serializable, Comparable<TimeStamp> {
         return ntpTime;
     }
 
+    /**
+     * Throws UnsupportedOperationException.
+     *
+     * @param ignored Ignored.
+     */
     private void readObject(final ObjectInputStream ignored) {
         throw new UnsupportedOperationException("Serialization is not supported");
     }

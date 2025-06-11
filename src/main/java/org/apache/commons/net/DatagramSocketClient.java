@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,20 +24,20 @@ import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Objects;
 
+import org.apache.commons.io.IOUtils;
+
 /**
  * The DatagramSocketClient provides the basic operations that are required of client objects accessing datagram sockets. It is meant to be subclassed to avoid
  * having to rewrite the same code over and over again to open a socket, close a socket, set timeouts, etc. Of special note is the
- * {@link #setDatagramSocketFactory setDatagramSocketFactory } method, which allows you to control the type of DatagramSocket the DatagramSocketClient creates
+ * {@link #setDatagramSocketFactory setDatagramSocketFactory)} method, which allows you to control the type of DatagramSocket the DatagramSocketClient creates
  * for network communications. This is especially useful for adding things like proxy support as well as better support for applets. For example, you could
  * create a {@link org.apache.commons.net.DatagramSocketFactory} that requests browser security capabilities before creating a socket. All classes derived from
- * DatagramSocketClient should use the {@link #_socketFactory_ _socketFactory_ } member variable to create DatagramSocket instances rather than instantiating
+ * DatagramSocketClient should use the {@link #_socketFactory_ _socketFactory_} member variable to create DatagramSocket instances rather than instantiating
  * them by directly invoking a constructor. By honoring this contract you guarantee that a user will always be able to provide his own Socket implementations by
  * substituting his own SocketFactory.
  *
- *
  * @see DatagramSocketFactory
  */
-
 public abstract class DatagramSocketClient implements AutoCloseable {
     /**
      * The default DatagramSocketFactory shared by all DatagramSocketClient instances.
@@ -64,7 +64,7 @@ public abstract class DatagramSocketClient implements AutoCloseable {
     protected DatagramSocketFactory _socketFactory_ = DEFAULT_SOCKET_FACTORY;
 
     /**
-     * Default constructor for DatagramSocketClient. Initializes _socket_ to null, _timeout_ to 0, and _isOpen_ to false.
+     * Constructs a new instance. Initializes _socket_ to null, _timeout_ to 0, and _isOpen_ to false.
      */
     public DatagramSocketClient() {
     }
@@ -85,13 +85,11 @@ public abstract class DatagramSocketClient implements AutoCloseable {
 
     /**
      * Closes the DatagramSocket used for the connection. You should call this method after you've finished using the class instance and also before you call
-     * {@link #open open() } again. _isOpen_ is set to false and _socket_ is set to null.
+     * {@link #open open()} again. _isOpen_ is set to false and _socket_ is set to null.
      */
     @Override
     public void close() {
-        if (_socket_ != null) {
-            _socket_.close();
-        }
+        IOUtils.closeQuietly(_socket_); // DatagramSocket#close() doesn't throw in its signature.
         _socket_ = null;
         _isOpen_ = false;
     }
@@ -172,7 +170,7 @@ public abstract class DatagramSocketClient implements AutoCloseable {
     }
 
     /**
-     * Gets true if the client has a currently open socket.
+     * Tests whether the client has a currently open socket.
      *
      * @return True if the client has a currently open socket, false otherwise.
      */
@@ -182,9 +180,10 @@ public abstract class DatagramSocketClient implements AutoCloseable {
 
     /**
      * Opens a DatagramSocket on the local host at the first available port. Also sets the timeout on the socket to the default timeout set by
-     * {@link #setDefaultTimeout setDefaultTimeout() }.
+     * {@link #setDefaultTimeout setDefaultTimeout()}.
      * <p>
      * _isOpen_ is set to true after calling this method and _socket_ is set to the newly opened socket.
+     * </p>
      *
      * @throws SocketException If the socket could not be opened or the timeout could not be set.
      */
@@ -196,9 +195,10 @@ public abstract class DatagramSocketClient implements AutoCloseable {
 
     /**
      * Opens a DatagramSocket on the local host at a specified port. Also sets the timeout on the socket to the default timeout set by {@link #setDefaultTimeout
-     * setDefaultTimeout() }.
+     * setDefaultTimeout()}.
      * <p>
      * _isOpen_ is set to true after calling this method and _socket_ is set to the newly opened socket.
+     * </p>
      *
      * @param port The port to use for the socket.
      * @throws SocketException If the socket could not be opened or the timeout could not be set.
@@ -211,9 +211,10 @@ public abstract class DatagramSocketClient implements AutoCloseable {
 
     /**
      * Opens a DatagramSocket at the specified address on the local host at a specified port. Also sets the timeout on the socket to the default timeout set by
-     * {@link #setDefaultTimeout setDefaultTimeout() }.
+     * {@link #setDefaultTimeout setDefaultTimeout()}.
      * <p>
      * _isOpen_ is set to true after calling this method and _socket_ is set to the newly opened socket.
+     * </p>
      *
      * @param port  The port to use for the socket.
      * @param localAddress The local address to use.

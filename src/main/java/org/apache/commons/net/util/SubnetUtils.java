@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,11 @@
  */
 package org.apache.commons.net.util;
 
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Performs subnet calculations given a network address and a subnet mask.
@@ -28,7 +31,59 @@ import java.util.regex.Pattern;
 public class SubnetUtils {
 
     /**
-     * Convenience container for subnet summary information.
+     * Allows an object to be the target of the "for-each loop" statement for a SubnetInfo.
+     */
+    private static final class SubnetAddressStringIterable implements Iterable<String> {
+
+        private final SubnetInfo subnetInfo;
+
+        /**
+         * Constructs a new instance.
+         *
+         * @param subnetInfo the SubnetInfo to iterate.
+         */
+        private SubnetAddressStringIterable(final SubnetInfo subnetInfo) {
+            this.subnetInfo = subnetInfo;
+        }
+
+        @Override
+        public Iterator<String> iterator() {
+            return new SubnetAddressStringIterator(subnetInfo);
+        }
+    }
+
+    /**
+     * Iterates over a SubnetInfo.
+     */
+    private static final class SubnetAddressStringIterator implements Iterator<String> {
+
+        private int currentAddress;
+
+        private final SubnetInfo subnetInfo;
+
+        /**
+         * Constructs a new instance.
+         *
+         * @param subnetInfo the SubnetInfo to iterate.
+         */
+        private SubnetAddressStringIterator(final SubnetInfo subnetInfo) {
+            this.subnetInfo = subnetInfo;
+            currentAddress = subnetInfo.low();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return subnetInfo.getAddressCountLong() > 0 && currentAddress <= subnetInfo.high();
+        }
+
+        @Override
+        public String next() {
+            return format(toArray4(currentAddress++));
+        }
+    }
+
+    /**
+     * Contains subnet summary information.
      */
     public final class SubnetInfo {
 
@@ -38,6 +93,12 @@ public class SubnetUtils {
         private SubnetInfo() {
         }
 
+        /**
+         * Converts a dotted decimal format address to a packed integer format.
+         *
+         * @param address a dotted decimal format address.
+         * @return packed integer formatted int.
+         */
         public int asInteger(final String address) {
             return toInteger(address);
         }
@@ -47,22 +108,12 @@ public class SubnetUtils {
         }
 
         /**
-         * Converts a 4-element array into dotted decimal format.
+         * Gets this instance's address into a dotted decimal String.
+         *
+         * @return a dotted decimal String.
          */
-        private String format(final int[] octets) {
-            final int last = octets.length - 1;
-            final StringBuilder builder = new StringBuilder();
-            for (int i = 0;; i++) {
-                builder.append(octets[i]);
-                if (i == last) {
-                    return builder.toString();
-                }
-                builder.append('.');
-            }
-        }
-
         public String getAddress() {
-            return format(toArray(address));
+            return format(toArray4(address));
         }
 
         /**
@@ -95,24 +146,45 @@ public class SubnetUtils {
             return count < 0 ? 0 : count;
         }
 
+        /**
+         * Gets all addresses in this subnet, the return array could be huge.
+         * <p>
+         * For large ranges, you can iterate or stream over the addresses instead using {@link #iterableAddressStrings()} or {@link #streamAddressStrings()}.
+         * </p>
+         *
+         * @return all addresses in this subnet.
+         * @see #iterableAddressStrings()
+         * @see #streamAddressStrings()
+         */
         public String[] getAllAddresses() {
             final int ct = getAddressCount();
             final String[] addresses = new String[ct];
             if (ct == 0) {
                 return addresses;
             }
-            for (int add = low(), j = 0; add <= high(); ++add, ++j) {
-                addresses[j] = format(toArray(add));
+            final int high = high();
+            for (int add = low(), j = 0; add <= high; ++add, ++j) {
+                addresses[j] = format(toArray4(add));
             }
             return addresses;
         }
 
+        /**
+         * Gets the broadcast address for this subnet.
+         *
+         * @return the broadcast address for this subnet.
+         */
         public String getBroadcastAddress() {
-            return format(toArray(broadcast));
+            return format(toArray4(broadcast));
         }
 
+        /**
+         * Gets the CIDR signature for this subnet.
+         *
+         * @return the CIDR signature for this subnet.
+         */
         public String getCidrSignature() {
-            return format(toArray(address)) + "/" + Integer.bitCount(netmask);
+            return format(toArray4(address)) + "/" + Integer.bitCount(netmask);
         }
 
         /**
@@ -121,7 +193,7 @@ public class SubnetUtils {
          * @return the IP address in dotted format, may be "0.0.0.0" if there is no valid address
          */
         public String getHighAddress() {
-            return format(toArray(high()));
+            return format(toArray4(high()));
         }
 
         /**
@@ -130,23 +202,43 @@ public class SubnetUtils {
          * @return the IP address in dotted format, may be "0.0.0.0" if there is no valid address
          */
         public String getLowAddress() {
-            return format(toArray(low()));
+            return format(toArray4(low()));
         }
 
+        /**
+         * Gets the network mask for this subnet.
+         *
+         * @return the network mask for this subnet.
+         */
         public String getNetmask() {
-            return format(toArray(netmask));
+            return format(toArray4(netmask));
         }
 
+        /**
+         * Gets the network address for this subnet.
+         *
+         * @return the network address for this subnet.
+         */
         public String getNetworkAddress() {
-            return format(toArray(network));
+            return format(toArray4(network));
         }
 
+        /**
+         * Gets the next address for this subnet.
+         *
+         * @return the next address for this subnet.
+         */
         public String getNextAddress() {
-            return format(toArray(address + 1));
+            return format(toArray4(address + 1));
         }
 
+        /**
+         * Gets the previous address for this subnet.
+         *
+         * @return the previous address for this subnet.
+         */
         public String getPreviousAddress() {
-            return format(toArray(address - 1));
+            return format(toArray4(address - 1));
         }
 
         private int high() {
@@ -182,6 +274,18 @@ public class SubnetUtils {
             return isInRange(toInteger(address));
         }
 
+        /**
+         * Creates a new Iterable of address Strings.
+         *
+         * @return a new Iterable of address Strings
+         * @see #getAllAddresses()
+         * @see #streamAddressStrings()
+         * @since 3.12.0
+         */
+        public Iterable<String> iterableAddressStrings() {
+            return new SubnetAddressStringIterable(this);
+        }
+
         private int low() {
             return isInclusiveHostCount() ? network : broadcastLong() - networkLong() > 1 ? network + 1 : 0;
         }
@@ -192,14 +296,15 @@ public class SubnetUtils {
         }
 
         /**
-         * Converts a packed integer address into a 4-element array
+         * Creates a new Stream of address Strings.
+         *
+         * @return a new Stream of address Strings.
+         * @see #getAllAddresses()
+         * @see #iterableAddressStrings()
+         * @since 3.12.0
          */
-        private int[] toArray(final int val) {
-            final int[] ret = new int[4];
-            for (int j = 3; j >= 0; --j) {
-                ret[j] |= val >>> 8 * (3 - j) & 0xff;
-            }
-            return ret;
+        public Stream<String> streamAddressStrings() {
+            return StreamSupport.stream(iterableAddressStrings().spliterator(), false);
         }
 
         /**
@@ -224,15 +329,29 @@ public class SubnetUtils {
     }
 
     private static final String IP_ADDRESS = "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})";
+
     private static final String SLASH_FORMAT = IP_ADDRESS + "/(\\d{1,2})"; // 0 -> 32
+
     private static final Pattern ADDRESS_PATTERN = Pattern.compile(IP_ADDRESS);
     private static final Pattern CIDR_PATTERN = Pattern.compile(SLASH_FORMAT);
-
     private static final int NBITS = 32;
-
     private static final String PARSE_FAIL = "Could not parse [%s]";
 
-    /*
+    /**
+     * Converts a 4-element array into dotted decimal format.
+     */
+    private static String format(final int[] octets) {
+        final int last = octets.length - 1;
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0;; i++) {
+            builder.append(octets[i]);
+            if (i == last) {
+                return builder.toString();
+            }
+            builder.append('.');
+        }
+    }
+    /**
      * Extracts the components of a dotted decimal address and pack into an integer using a regex match
      */
     private static int matchAddress(final Matcher matcher) {
@@ -244,7 +363,7 @@ public class SubnetUtils {
         return addr;
     }
 
-    /*
+    /**
      * Checks integer boundaries. Checks if a value x is in the range [begin,end]. Returns x if it is in range, throws an exception otherwise.
      */
     private static int rangeCheck(final int value, final int begin, final int end) {
@@ -254,8 +373,19 @@ public class SubnetUtils {
         throw new IllegalArgumentException("Value [" + value + "] not in range [" + begin + "," + end + "]");
     }
 
-    /*
-     * Converts a dotted decimal format address to a packed integer format
+    /**
+     * Converts a packed integer address into a 4-element array
+     */
+    private static int[] toArray4(final int val) {
+        final int[] ret = new int[4];
+        for (int j = 3; j >= 0; --j) {
+            ret[j] |= val >>> 8 * (3 - j) & 0xff;
+        }
+        return ret;
+    }
+
+    /**
+     * Converts a dotted decimal format address to a packed integer format.
      */
     private static int toInteger(final String address) {
         final Matcher matcher = ADDRESS_PATTERN.matcher(address);
@@ -265,16 +395,16 @@ public class SubnetUtils {
         throw new IllegalArgumentException(String.format(PARSE_FAIL, address));
     }
 
-    private final int netmask;
-
     private final int address;
-
-    private final int network;
 
     private final int broadcast;
 
     /** Whether the broadcast/network address are included in host count */
     private boolean inclusiveHostCount;
+
+    private final int netmask;
+
+    private final int network;
 
     /**
      * Constructs an instance from a CIDR-notation string, e.g. "192.168.0.1/16"
@@ -343,10 +473,20 @@ public class SubnetUtils {
         return new SubnetInfo();
     }
 
+    /**
+     * Gets the next subnet for this instance.
+     *
+     * @return the next subnet for this instance.
+     */
     public SubnetUtils getNext() {
         return new SubnetUtils(getInfo().getNextAddress(), getInfo().getNetmask());
     }
 
+    /**
+     * Gets the previous subnet for this instance.
+     *
+     * @return the next previous for this instance.
+     */
     public SubnetUtils getPrevious() {
         return new SubnetUtils(getInfo().getPreviousAddress(), getInfo().getNetmask());
     }
@@ -354,8 +494,8 @@ public class SubnetUtils {
     /**
      * Tests if the return value of {@link SubnetInfo#getAddressCount()} includes the network and broadcast addresses.
      *
-     * @since 2.2
      * @return true if the host count includes the network and broadcast addresses
+     * @since 2.2
      */
     public boolean isInclusiveHostCount() {
         return inclusiveHostCount;

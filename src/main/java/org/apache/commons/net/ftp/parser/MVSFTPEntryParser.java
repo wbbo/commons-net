@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -65,7 +65,7 @@ public class MVSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             "\\S+\\s+" + // recfm - ignored
             "\\S+\\s+" + // logical record length -ignored
             "\\S+\\s+" + // block size - ignored
-            "(PS|PO|PO-E)\\s+" + // Dataset organisation. Many exist
+            "(PS|PO|PO-E)\\s+" + // Dataset organization. Many exist
             // but only support: PS, PO, PO-E
             "(\\S+)\\s*"; // Dataset Name (file name)
 
@@ -159,7 +159,7 @@ public class MVSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * --------------------------------------------------------------------- Very brief and incomplete description of the zOS/MVS-file system. (Note: "zOS" is
      * the operating system on the mainframe, and is the new name for MVS)
      *
-     * The file system on the mainframe does not have hierarchical structure as for example the unix file system. For a more comprehensive description,
+     * The file system on the mainframe does not have hierarchical structure as for example the Unix file system. For a more comprehensive description,
      * please refer to the IBM manuals
      *
      * @LINK: https://publibfp.boulder.ibm.com/cgi-bin/bookmgr/BOOKS/dgt2d440/CONTENTS
@@ -171,14 +171,14 @@ public class MVSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * max 44 characters including the dots.
      *
      *
-     * Dataset organisation ====================
+     * Dataset organization ====================
      *
-     * A dataset represents a piece of storage allocated on one or more disks. The structure of the storage is described with the field dataset organisation
-     * (DSORG). There are a number of dataset organisations, but only two are usable for FTP transfer.
+     * A dataset represents a piece of storage allocated on one or more disks. The structure of the storage is described with the field dataset organization
+     * (DSORG). There are a number of dataset organizations, but only two are usable for FTP transfer.
      *
      * DSORG: PS: sequential, or flat file PO: partitioned dataset PO-E: extended partitioned dataset
      *
-     * The PS file is just a flat file, as you would find it on the unix file system.
+     * The PS file is just a flat file, as you would find it on the Unix file system.
      *
      * The PO and PO-E files, can be compared to a single level directory structure. A PO file consist of a number of dataset members, or files if you will. It
      * is possible to CD into the file, and to retrieve the individual members.
@@ -225,9 +225,6 @@ public class MVSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
         super.configure(null); // configure parser with default configurations
     }
 
-    /*
-     * @return
-     */
     @Override
     protected FTPClientConfig getDefaultConfiguration() {
         return new FTPClientConfig(FTPClientConfig.SYST_MVS, DEFAULT_DATE_FORMAT, null);
@@ -246,7 +243,7 @@ public class MVSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * </pre>
      * <pre>
      * ----------------------------------- Group within Regex [1] Volume [2] Unit [3] Referred [4] Ext: number of extents [5] Used [6] Recfm: Record format [7]
-     * Lrecl: Logical record length [8] BlkSz: Block size [9] Dsorg: Dataset organisation. Many exists but only support: PS, PO, PO-E [10] Dsname: Dataset name
+     * Lrecl: Logical record length [8] BlkSz: Block size [9] Dsorg: Dataset organization. Many exists but only support: PS, PO, PO-E [10] Dsname: Dataset name
      * </pre>
      *
      * @param entry zosDirectoryEntry
@@ -441,7 +438,7 @@ public class MVSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * <ul>
      *     <li>z/OS-MVS File lists,</li>
      *     <li>z/OS-MVS Member lists,</li>
-     *     <li>unix file lists.</li>
+     *     <li>Unix file lists.</li>
      * </ul>
      * @since 2.0
      */

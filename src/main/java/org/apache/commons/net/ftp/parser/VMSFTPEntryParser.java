@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,7 +78,7 @@ public class VMSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * Defines a default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
+     * Gets a new default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
      *
      * @return the default configuration for this parser.
      */
@@ -87,12 +87,17 @@ public class VMSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
         return new FTPClientConfig(FTPClientConfig.SYST_VMS, DEFAULT_DATE_FORMAT, null);
     }
 
+    /**
+     * Returns {@code false}.
+     *
+     * @return {@code false}.
+     */
     protected boolean isVersioning() {
         return false;
     }
 
     /**
-     * DO NOT USE
+     * DO NOT USE.
      *
      * @param listStream the stream
      * @return the array of files
@@ -198,7 +203,6 @@ public class VMSFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * implementation of simply calling BufferedReader.readLine(), because one entry may span multiple lines.
      *
      * @param reader The BufferedReader object from which entries are to be read.
-     *
      * @return A string representing the next ftp entry or null if none found.
      * @throws IOException thrown on any IO Error reading from the reader.
      */

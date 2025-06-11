@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
  * worry about the internals. Additionally, only very few people should have to care about any of the TFTPPacket classes or derived classes. Almost all users
  * should only be concerned with the {@link org.apache.commons.net.tftp.TFTPClient} class {@link org.apache.commons.net.tftp.TFTPClient#receiveFile
  * receiveFile()} and {@link org.apache.commons.net.tftp.TFTPClient#sendFile sendFile()} methods.
- *
+ * </p>
  *
  * @see TFTPPacket
  * @see TFTPPacketException
@@ -61,6 +61,13 @@ public final class TFTPErrorPacket extends TFTPPacket {
 
     /** The no such user error code according to RFC 783, value 7. */
     public static final int NO_SUCH_USER = 7;
+
+    /**
+     * The invalid options error code according to RFC 2347, value 8.
+     *
+     * @since 3.12.0
+     */
+    public static final int INVALID_OPTIONS_VALUE = 8;
 
     /** The error code of this packet. */
     private final int error;
@@ -121,7 +128,7 @@ public final class TFTPErrorPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the error code of the packet.
+     * Gets the error code of the packet.
      *
      * @return The error code of the packet.
      */
@@ -130,7 +137,7 @@ public final class TFTPErrorPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the error message of the packet.
+     * Gets the error message of the packet.
      *
      * @return The error message of the packet.
      */

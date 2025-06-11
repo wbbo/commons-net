@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,8 +23,9 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.MalformedServerReplyException;
 import org.apache.commons.net.io.DotTerminatedMessageReader;
 import org.apache.commons.net.io.DotTerminatedMessageWriter;
@@ -33,20 +34,20 @@ import org.apache.commons.net.util.NetConstants;
 
 /**
  * NNTPClient encapsulates all the functionality necessary to post and retrieve articles from an NNTP server. As with all classes derived from
- * {@link org.apache.commons.net.SocketClient}, you must first connect to the server with {@link org.apache.commons.net.SocketClient#connect connect } before
- * doing anything, and finally {@link org.apache.commons.net.nntp.NNTP#disconnect disconnect() } after you're completely finished interacting with the server.
+ * {@link org.apache.commons.net.SocketClient}, you must first connect to the server with {@link org.apache.commons.net.SocketClient#connect connect} before
+ * doing anything, and finally {@link org.apache.commons.net.nntp.NNTP#disconnect disconnect()} after you're completely finished interacting with the server.
  * Remember that the {@link org.apache.commons.net.nntp.NNTP#isAllowedToPost isAllowedToPost()} method is defined in {@link org.apache.commons.net.nntp.NNTP}.
  * <p>
  * You should keep in mind that the NNTP server may choose to prematurely close a connection if the client has been idle for longer than a given time period or
  * if the server is being shutdown by the operator or some other reason. The NNTP class will detect a premature NNTP server connection closing when it receives
- * a {@link org.apache.commons.net.nntp.NNTPReply#SERVICE_DISCONTINUED NNTPReply.SERVICE_DISCONTINUED } response to a command. When that occurs, the NNTP class
+ * a {@link org.apache.commons.net.nntp.NNTPReply#SERVICE_DISCONTINUED NNTPReply.SERVICE_DISCONTINUED} response to a command. When that occurs, the NNTP class
  * method encountering that reply will throw an {@link org.apache.commons.net.nntp.NNTPConnectionClosedException} . {@code NNTPConectionClosedException} is
  * a subclass of {@code IOException} and therefore need not be caught separately, but if you are going to catch it separately, its catch block must
  * appear before the more general {@code IOException} catch block. When you encounter an
  * {@link org.apache.commons.net.nntp.NNTPConnectionClosedException} , you must disconnect the connection with
- * {@link org.apache.commons.net.nntp.NNTP#disconnect disconnect() } to properly clean up the system resources used by NNTP. Before disconnecting, you may check
- * the last reply code and text with {@link org.apache.commons.net.nntp.NNTP#getReplyCode getReplyCode } and
- * {@link org.apache.commons.net.nntp.NNTP#getReplyString getReplyString }.
+ * {@link org.apache.commons.net.nntp.NNTP#disconnect disconnect()} to properly clean up the system resources used by NNTP. Before disconnecting, you may check
+ * the last reply code and text with {@link org.apache.commons.net.nntp.NNTP#getReplyCode getReplyCode} and
+ * {@link org.apache.commons.net.nntp.NNTP#getReplyString getReplyString}.
  * </p>
  * <p>
  * Rather than list it separately for each method, we mention here that every method communicating with the server and throwing an IOException can also throw a
@@ -61,8 +62,6 @@ import org.apache.commons.net.util.NetConstants;
  */
 
 public class NNTPClient extends NNTP {
-
-    private static final NewsgroupInfo[] EMPTY_NEWSGROUP_INFO_ARRAY = {};
 
     /**
      * Parse a response line from {@link #retrieveArticleInfo(long, long)}.
@@ -171,6 +170,13 @@ public class NNTPClient extends NNTP {
         return result;
     }
 
+    /**
+     * Constructs a new instance.
+     */
+    public NNTPClient() {
+        // empty
+    }
+
     @SuppressWarnings("deprecation")
     private void ai2ap(final ArticleInfo ai, final ArticlePointer ap) {
         if (ap != null) { // ai cannot be null
@@ -239,11 +245,17 @@ public class NNTPClient extends NNTP {
         return NNTPReply.isPositiveCompletion(getReply());
     }
 
+    /**
+     * Creates a new writer or returns null if we don't have a a positive intermediate response.
+     *
+     * @param articleId Article ID.
+     * @return a new writer or null.
+     * @throws IOException If an I/O error occurs while either sending the command or receiving the server reply.
+     */
     public Writer forwardArticle(final String articleId) throws IOException {
         if (!NNTPReply.isPositiveIntermediate(ihave(articleId))) {
             return null;
         }
-
         return new DotTerminatedMessageWriter(_writer_);
     }
 
@@ -261,7 +273,7 @@ public class NNTPClient extends NNTP {
         if (info == null) {
             throw new IOException("XOVER command failed: " + getReplyString());
         }
-        // N.B. info is already DotTerminated, so don't rewrap
+        // Info is already DotTerminated, so don't rewrap
         return new ArticleIterator(new ReplyIterator(info, false));
     }
 
@@ -417,32 +429,17 @@ public class NNTPClient extends NNTP {
      *                                       causing the server to send NNTP reply code 400. This exception may be caught either as an IOException or
      *                                       independently as itself.
      * @throws IOException                   If an I/O error occurs while either sending a command to the server or receiving a reply from the server.
-     *
      * @see #iterateNewNews(NewGroupsOrNewsQuery)
      */
     public String[] listNewNews(final NewGroupsOrNewsQuery query) throws IOException {
         if (!NNTPReply.isPositiveCompletion(newnews(query.getNewsgroups(), query.getDate(), query.getTime(), query.isGMT(), query.getDistributions()))) {
             return null;
         }
-
-        final Vector<String> list = new Vector<>();
+        List<String> list = new ArrayList<>();
         try (BufferedReader reader = new DotTerminatedMessageReader(_reader_)) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                list.addElement(line);
-            }
+            list = IOUtils.readLines(reader);
         }
-
-        final int size = list.size();
-        if (size < 1) {
-            return NetConstants.EMPTY_STRING_ARRAY;
-        }
-
-        final String[] result = new String[size];
-        list.copyInto(result);
-
-        return result;
+        return list.toArray(NetConstants.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -515,14 +512,8 @@ public class NNTPClient extends NNTP {
         if (!NNTPReply.isPositiveCompletion(sendCommand("LIST", "OVERVIEW.FMT"))) {
             return null;
         }
-
         try (BufferedReader reader = new DotTerminatedMessageReader(_reader_)) {
-            String line;
-            final ArrayList<String> list = new ArrayList<>();
-            while ((line = reader.readLine()) != null) {
-                list.add(line);
-            }
-            return list.toArray(NetConstants.EMPTY_STRING_ARRAY);
+            return IOUtils.readLines(reader).toArray(NetConstants.EMPTY_STRING_ARRAY);
         }
     }
 
@@ -542,7 +533,6 @@ public class NNTPClient extends NNTP {
      *
      * @param reply   the reply to parse "22n nnn <aaa>"
      * @param pointer the pointer to update
-     *
      * @throws MalformedServerReplyException if response could not be parsed
      */
     private void parseArticlePointer(final String reply, final ArticleInfo pointer) throws MalformedServerReplyException {
@@ -564,7 +554,7 @@ public class NNTPClient extends NNTP {
 
     /**
      * Post an article to the NNTP server. This method returns a DotTerminatedMessageWriter instance to which the article can be written. Null is returned if
-     * the posting attempt fails. You should check {@link NNTP#isAllowedToPost isAllowedToPost() } before trying to post. However, a posting attempt can fail
+     * the posting attempt fails. You should check {@link NNTP#isAllowedToPost isAllowedToPost()} before trying to post. However, a posting attempt can fail
      * due to malformed headers.
      * <p>
      * You must not issue any commands to the NNTP server (i.e., call any (other methods) until you finish writing to the returned Writer instance and close it.
@@ -579,7 +569,7 @@ public class NNTPClient extends NNTP {
      * line-leading dots and ending the message with a single dot upon closing, so all you have to worry about is writing the header and the message.
      * </p>
      * <p>
-     * Upon closing the returned Writer, you need to call {@link #completePendingCommand completePendingCommand() } to finalize the posting and verify its
+     * Upon closing the returned Writer, you need to call {@link #completePendingCommand completePendingCommand()} to finalize the posting and verify its
      * success or failure from the server reply.
      * </p>
      *
@@ -596,11 +586,9 @@ public class NNTPClient extends NNTP {
     }
 
     private NewsgroupInfo[] readNewsgroupListing() throws IOException {
-
         // Start of with a big vector because we may be reading a very large
         // amount of groups.
-        final Vector<NewsgroupInfo> list = new Vector<>(2048);
-
+        final List<NewsgroupInfo> list = new ArrayList<>(2048);
         String line;
         try (BufferedReader reader = new DotTerminatedMessageReader(_reader_)) {
             while ((line = reader.readLine()) != null) {
@@ -608,18 +596,13 @@ public class NNTPClient extends NNTP {
                 if (tmp == null) {
                     throw new MalformedServerReplyException(line);
                 }
-                list.addElement(tmp);
+                list.add(tmp);
             }
         }
-        final int size;
-        if ((size = list.size()) < 1) {
-            return EMPTY_NEWSGROUP_INFO_ARRAY;
+        if (list.size() < 1) {
+            return NewsgroupInfo.EMPTY_ARRAY;
         }
-
-        final NewsgroupInfo[] info = new NewsgroupInfo[size];
-        list.copyInto(info);
-
-        return info;
+        return list.toArray(NewsgroupInfo.EMPTY_ARRAY);
     }
 
     private BufferedReader retrieve(final int command, final long articleNumber, final ArticleInfo pointer) throws IOException {
@@ -1094,7 +1077,7 @@ public class NNTPClient extends NNTP {
      * See {@link NNTP#xover} for legal agument formats. Alternatively, read RFC 2980 :-)
      *
      * @param articleRange
-     * @return Returns a DotTerminatedMessageReader if successful, null otherwise
+     * @return a DotTerminatedMessageReader if successful, null otherwise
      * @throws IOException
      */
     private BufferedReader retrieveArticleInfo(final String articleRange) throws IOException {
@@ -1163,7 +1146,7 @@ public class NNTPClient extends NNTP {
      *
      * @param header
      * @param articleRange
-     * @return Returns a {@link DotTerminatedMessageReader} if successful, {@code null} otherwise
+     * @return a {@link DotTerminatedMessageReader} if successful, {@code null} otherwise
      * @throws IOException
      */
     private BufferedReader retrieveHeader(final String header, final String articleRange) throws IOException {

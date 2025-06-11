@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
  * </p>
  *
  * <pre>
- * entry            = [ facts ] SP pathname
+ * entry            = [ facts ] SP path
  * facts            = 1*( fact ";" )
  * fact             = factname "=" value
  * factname         = "Size" / "Modify" / "Create" /
@@ -79,10 +79,23 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl {
             /* 5 */ { FTPFile.READ_PERMISSION, FTPFile.EXECUTE_PERMISSION }, /* 6 */ { FTPFile.READ_PERMISSION, FTPFile.WRITE_PERMISSION },
             /* 7 */ { FTPFile.READ_PERMISSION, FTPFile.WRITE_PERMISSION, FTPFile.EXECUTE_PERMISSION }, };
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
     public static MLSxEntryParser getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Parses a line of an FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the file listing
+     * line doesn't describe a file, {@code null} should be returned, otherwise a {@code FTPFile} instance representing the files in the directory
+     * is returned.
+     *
+     * @param entry A line of text from the file listing
+     * @return An FTPFile instance corresponding to the supplied entry
+     */
     public static FTPFile parseEntry(final String entry) {
         return INSTANCE.parseFTPEntry(entry);
     }
@@ -195,7 +208,7 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl {
                 file.setName(entry.substring(1));
                 return file;
             }
-            return null; // Invalid - no pathname
+            return null; // Invalid - no path
 
         }
         final String[] parts = entry.split(" ", 2); // Path may contain space
@@ -250,11 +263,14 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl {
             default:
                 if (factname.startsWith("unix.")) {
                     final String unixfact = factname.substring("unix.".length()).toLowerCase(Locale.ENGLISH);
-                    if ("group".equals(unixfact)) {
+                    switch (unixfact) {
+                    case "group":
                         file.setGroup(factvalue);
-                    } else if ("owner".equals(unixfact)) {
+                        break;
+                    case "owner":
                         file.setUser(factvalue);
-                    } else if ("mode".equals(unixfact)) { // e.g. 0[1]755
+                        break;
+                    case "mode": {
                         final int off = factvalue.length() - 3; // only parse last 3 digits
                         for (int i = 0; i < 3; i++) {
                             final int ch = factvalue.charAt(off + i) - '0';
@@ -266,9 +282,13 @@ public class MLSxEntryParser extends FTPFileEntryParserImpl {
                                 // TODO should this cause failure, or can it be reported somehow?
                             }
                         } // digits
+                        break;
+                    }
+                    default:
+                        break;
                     } // mode
-                } // unix.
-                else if (!hasUnixMode && "perm".equals(factname)) { // skip if we have the UNIX.mode
+                // unix.
+                } else if (!hasUnixMode && "perm".equals(factname)) { // skip if we have the UNIX.mode
                     doUnixPerms(file, valueLowerCase);
                 }
                 break;

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.apache.commons.io.IOUtils;
+
 /**
  * Simple TCP server. Waits for connections on a TCP port in a separate thread.
  */
@@ -34,7 +36,6 @@ public class TelnetTestSimpleServer implements Runnable {
      * test of client-driven subnegotiation. <p>
      *
      * @param port   server port on which to listen.
-     *
      * @throws IOException on error
      */
     public TelnetTestSimpleServer(final int port) throws IOException {
@@ -84,30 +85,17 @@ public class TelnetTestSimpleServer implements Runnable {
                     } catch (final Exception e) {
                         System.err.println("Exception in wait, " + e.getMessage());
                     }
-                    try {
-                        clientSocket.close();
-                    } catch (final Exception e) {
-                        System.err.println("Exception in close, " + e.getMessage());
-                    }
+                    IOUtils.close(clientSocket, e -> System.err.println("Exception in close, " + e.getMessage()));
                 }
             } catch (final IOException e) {
                 bError = true;
             }
         }
-
-        try {
-            serverSocket.close();
-        } catch (final Exception e) {
-            System.err.println("Exception in close, " + e.getMessage());
-        }
+        IOUtils.closeQuietly(serverSocket, e -> System.err.println("Exception in close, " + e.getMessage()));
     }
 
     public void stop() {
         listener.interrupt();
-        try {
-            serverSocket.close();
-        } catch (final Exception e) {
-            System.err.println("Exception in close, " + e.getMessage());
-        }
+        IOUtils.closeQuietly(serverSocket, e -> System.err.println("Exception in close, " + e.getMessage()));
     }
 }

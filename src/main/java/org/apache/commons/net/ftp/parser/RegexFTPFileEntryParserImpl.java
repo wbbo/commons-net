@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,8 +27,9 @@ import org.apache.commons.net.ftp.FTPFileEntryParserImpl;
 /**
  * This abstract class implements both the older FTPFileListParser and newer FTPFileEntryParser interfaces with default functionality. All the classes in the
  * parser subpackage inherit from this.
- *
+ * <p>
  * This is the base class for all regular expression based FTPFileEntryParser classes
+ * </p>
  */
 public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl {
     /**
@@ -50,7 +51,6 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
      * The constructor for a RegexFTPFileEntryParserImpl object. The expression is compiled with flags = 0.
      *
      * @param regex The regular expression with which this object is initialized.
-     *
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen in normal conditions. If it is seen, this is a sign
      *                                  that a subclass has been created with a bad regular expression. Since the parser must be created before use, this means
      *                                  that any bad parser subclasses created from this will bomb very quickly, leading to easy detection.
@@ -65,7 +65,6 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
      *
      * @param regex The regular expression with which this object is initialized.
      * @param flags the flags to apply, see {@link Pattern#compile(String, int)}. Use 0 for none.
-     *
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen in normal conditions. If it is seen, this is a sign
      *                                  that a subclass has been created with a bad regular expression. Since the parser must be created before use, this means
      *                                  that any bad parser subclasses created from this will bomb very quickly, leading to easy detection.
@@ -97,7 +96,6 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
      *
      * @return the number of groups() in the internal MatchResult.
      */
-
     public int getGroupCnt() {
         if (result == null) {
             return 0;
@@ -106,11 +104,13 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
     }
 
     /**
-     * For debugging purposes - returns a string shows each match group by number.
+     * Gets a string shows each match group by number.
+     * <p>
+     * For debugging purposes.
+     * </p>
      *
      * @return a string shows each match group by number.
      */
-
     public String getGroupsAsString() {
         final StringBuilder b = new StringBuilder();
         for (int i = 1; i <= result.groupCount(); i++) {
@@ -123,7 +123,6 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
      * Convenience method delegates to the internal MatchResult's group() method.
      *
      * @param matchNum match group number to be retrieved
-     *
      * @return the content of the {@code matchnum'th} group of the internal match or null if this method is called without a match having been made.
      */
     public String group(final int matchNum) {
@@ -150,12 +149,12 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
     }
 
     /**
-     * Alter the current regular expression being utilised for entry parsing and create a new {@link Pattern} instance.
+     * Sets the regular expression for entry parsing and create a new {@link Pattern} instance.
      *
      * @param regex The new regular expression
      * @return true
-     * @since 2.0
      * @throws IllegalArgumentException if the regex cannot be compiled
+     * @since 2.0
      */
     public boolean setRegex(final String regex) {
         compileRegex(regex, 0);
@@ -163,13 +162,13 @@ public abstract class RegexFTPFileEntryParserImpl extends FTPFileEntryParserImpl
     }
 
     /**
-     * Alter the current regular expression being utilised for entry parsing and create a new {@link Pattern} instance.
+     * Sets the regular expression for entry parsing and create a new {@link Pattern} instance.
      *
      * @param regex The new regular expression
      * @param flags the flags to apply, see {@link Pattern#compile(String, int)}. Use 0 for none.
      * @return true
-     * @since 3.4
      * @throws IllegalArgumentException if the regex cannot be compiled
+     * @since 3.4
      */
     public boolean setRegex(final String regex, final int flags) {
         compileRegex(regex, flags);

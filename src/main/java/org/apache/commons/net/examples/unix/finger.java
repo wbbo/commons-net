@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,7 @@ import org.apache.commons.net.finger.FingerClient;
 
 /**
  * This is an example of how you would implement the finger command in Java using NetComponents. The Java version is much shorter. But keep in mind that the
- * UNIX finger command reads all sorts of local files to output local finger information. This program only queries the finger daemon.
+ * Unix finger command reads all sorts of local files to output local finger information. This program only queries the finger daemon.
  * <p>
  * The -l flag is used to request long output from the server.
  */
@@ -33,8 +33,10 @@ public final class finger {
 
     public static void main(final String[] args) {
         boolean longOutput = false;
-        int arg = 0, index;
-        String handle, host;
+        int arg = 0;
+        int index;
+        String handle;
+        String host;
         final FingerClient finger;
         InetAddress address = null;
 

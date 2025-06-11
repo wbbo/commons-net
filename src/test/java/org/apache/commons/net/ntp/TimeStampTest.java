@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@ package org.apache.commons.net.ntp;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
@@ -64,7 +65,7 @@ public class TimeStampTest extends TestCase {
     public void testDateConversion() {
         // convert current date to NtpTimeStamp then compare Java date
         // computed from NTP timestamp with original Java date.
-        final Calendar refCal = Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC"));
+        final Calendar refCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         final Date refDate = refCal.getTime();
         final TimeStamp ts = new TimeStamp(refDate);
         assertEquals("refDate.getTime()", refDate.getTime(), ts.getTime());

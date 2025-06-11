@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@ import java.util.Calendar;
 import org.apache.commons.net.ftp.FTPFile;
 
 /**
- * Parser for the Connect Enterprise UNIX FTP Server From Sterling Commerce. Here is a sample of the sort of output line this parser processes:
+ * Parser for the Connect Enterprise Unix FTP Server From Sterling Commerce. Here is a sample of the sort of output line this parser processes:
  *
  * <pre>
  * "-C--E-----FTP B QUA1I1      18128       41 Aug 12 13:56 QUADTEST"
@@ -38,7 +38,7 @@ import org.apache.commons.net.ftp.FTPFile;
 public class EnterpriseUnixFTPEntryParser extends RegexFTPFileEntryParserImpl {
 
     /**
-     * months abbreviations looked for by this parser. Also used to determine <b>which</b> month has been matched by the parser.
+     * months abbreviations looked for by this parser. Also used to determine <strong>which</strong> month has been matched by the parser.
      */
     private static final String MONTHS = "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)";
 
@@ -50,7 +50,7 @@ public class EnterpriseUnixFTPEntryParser extends RegexFTPFileEntryParserImpl {
             + "(\\S+)\\s*" // 13
             + "(\\S*)\\s*" // 14 user
             + "(\\d*)\\s*" // 15 group
-            + "(\\d*)\\s*" // 16 filesize
+            + "(\\d*)\\s*" // 16 file size
             + MONTHS // 17 month
             + "\\s*" // TODO should the space be optional?
             // TODO \\d* should be \\d? surely ? Otherwise 01111 is allowed
@@ -69,7 +69,7 @@ public class EnterpriseUnixFTPEntryParser extends RegexFTPFileEntryParserImpl {
     }
 
     /**
-     * Parses a line of a unix FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the file
+     * Parses a line of a Unix FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the file
      * listing line doesn't describe a file, {@code null} is returned, otherwise a {@code FTPFile} instance representing the files in the
      * directory is returned.
      *
@@ -85,7 +85,7 @@ public class EnterpriseUnixFTPEntryParser extends RegexFTPFileEntryParserImpl {
         if (matches(entry)) {
             final String usr = group(14);
             final String grp = group(15);
-            final String filesize = group(16);
+            final String fileSize = group(16);
             final String mo = group(17);
             final String da = group(18);
             final String yr = group(20);
@@ -97,7 +97,7 @@ public class EnterpriseUnixFTPEntryParser extends RegexFTPFileEntryParserImpl {
             file.setUser(usr);
             file.setGroup(grp);
             try {
-                file.setSize(Long.parseLong(filesize));
+                file.setSize(Long.parseLong(fileSize));
             } catch (final NumberFormatException e) {
                 // intentionally do nothing
             }

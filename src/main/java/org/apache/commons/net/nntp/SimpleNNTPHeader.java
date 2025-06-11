@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,7 +43,8 @@ package org.apache.commons.net.nntp;
  */
 
 public class SimpleNNTPHeader {
-    private final String subject, from;
+    private final String subject;
+    private final String from;
     private final StringBuilder newsgroups;
     private final StringBuilder headerFields;
     private int newsgroupCount;
@@ -94,7 +95,7 @@ public class SimpleNNTPHeader {
     }
 
     /**
-     * Returns the address used in the {@code From:} header field.
+     * Gets the address used in the {@code From:} header field.
      *
      * @return The from address.
      */
@@ -103,7 +104,7 @@ public class SimpleNNTPHeader {
     }
 
     /**
-     * Returns the contents of the {@code Newsgroups:} header field.
+     * Gets the contents of the {@code Newsgroups:} header field.
      *
      * @return The comma-separated list of newsgroups to which the article is being posted.
      */
@@ -112,7 +113,7 @@ public class SimpleNNTPHeader {
     }
 
     /**
-     * Returns the subject used in the {@code Subject:} header field.
+     * Gets the subject used in the {@code Subject:} header field.
      *
      * @return The subject.
      */

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
 
 package org.apache.commons.net.ftp.parser;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.apache.commons.net.ftp.Configurable;
@@ -40,6 +41,13 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
     private static final Pattern JAVA_QUALIFIED_NAME_PATTERN = Pattern.compile(JAVA_QUALIFIED_NAME);
 
     /**
+     * Constructs a new instance.
+     */
+    public DefaultFTPFileEntryParserFactory() {
+        // empty
+    }
+
+    /**
      * <p>
      * Implementation extracts a key from the supplied {@link FTPClientConfig FTPClientConfig} parameter and creates an object implementing the interface
      * FTPFileEntryParser and uses the supplied configuration to configure it.
@@ -50,7 +58,6 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
      * </p>
      *
      * @param config A {@link FTPClientConfig FTPClientConfig} used to configure the parser created
-     *
      * @return the {@link FTPFileEntryParser} so created.
      * @throws ParserInitializationException Thrown on any exception in instantiation
      * @throws NullPointerException          if {@code config} is {@code null}
@@ -58,8 +65,7 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
      */
     @Override
     public FTPFileEntryParser createFileEntryParser(final FTPClientConfig config) throws ParserInitializationException {
-        final String key = config.getServerSystemKey();
-        return createFileEntryParser(key, config);
+        return createFileEntryParser(config.getServerSystemKey(), config);
     }
 
     /**
@@ -69,9 +75,9 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
      * command to identify systems.
      * <p>
      * If {@code key} is not recognized as a fully qualified class name known to the system, this method will then attempt to see whether it
-     * <b>contains</b> a string identifying one of the known parsers. This comparison is <b>case-insensitive</b>. The intent here is where possible, to select
-     * as keys strings which are returned by the SYST command on the systems which the corresponding parser successfully parses. This enables this factory to be
-     * used in the auto-detection system.
+     * <strong>contains</strong> a string identifying one of the known parsers. This comparison is <strong>case-insensitive</strong>. The intent here is where
+     * possible, to select as keys strings which are returned by the SYST command on the systems which the corresponding parser successfully parses. This
+     * enables this factory to be used in the auto-detection system.
      * </p>
      *
      * @param key should be a fully qualified class name corresponding to a class implementing the FTPFileEntryParser interface<br>
@@ -122,28 +128,27 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
         }
 
         if (parser == null) { // Now try for aliases
-            final String ukey = key.toUpperCase(java.util.Locale.ENGLISH);
-            if (ukey.contains(FTPClientConfig.SYST_UNIX_TRIM_LEADING)) {
+            final String upperKey = key.toUpperCase(Locale.ENGLISH);
+            if (upperKey.contains(FTPClientConfig.SYST_UNIX_TRIM_LEADING)) {
                 parser = new UnixFTPEntryParser(config, true);
-            }
-            // must check this after SYST_UNIX_TRIM_LEADING as it is a substring of it
-            else if (ukey.contains(FTPClientConfig.SYST_UNIX)) {
+                // must check this after SYST_UNIX_TRIM_LEADING as it is a substring of it
+            } else if (upperKey.contains(FTPClientConfig.SYST_UNIX)) {
                 parser = new UnixFTPEntryParser(config, false);
-            } else if (ukey.contains(FTPClientConfig.SYST_VMS)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_VMS)) {
                 parser = new VMSVersioningFTPEntryParser(config);
-            } else if (ukey.contains(FTPClientConfig.SYST_NT)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_NT)) {
                 parser = createNTFTPEntryParser(config);
-            } else if (ukey.contains(FTPClientConfig.SYST_OS2)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_OS2)) {
                 parser = new OS2FTPEntryParser(config);
-            } else if (ukey.contains(FTPClientConfig.SYST_OS400) || ukey.contains(FTPClientConfig.SYST_AS400)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_OS400) || upperKey.contains(FTPClientConfig.SYST_AS400)) {
                 parser = createOS400FTPEntryParser(config);
-            } else if (ukey.contains(FTPClientConfig.SYST_MVS)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_MVS)) {
                 parser = new MVSFTPEntryParser(); // Does not currently support config parameter
-            } else if (ukey.contains(FTPClientConfig.SYST_NETWARE)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_NETWARE)) {
                 parser = new NetwareFTPEntryParser(config);
-            } else if (ukey.contains(FTPClientConfig.SYST_MACOS_PETER)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_MACOS_PETER)) {
                 parser = new MacOsPeterFTPEntryParser(config);
-            } else if (ukey.contains(FTPClientConfig.SYST_L8)) {
+            } else if (upperKey.contains(FTPClientConfig.SYST_L8)) {
                 // L8 normally means Unix, but move it to the end for some L8 systems that aren't.
                 // This check should be last!
                 parser = new UnixFTPEntryParser(config);
@@ -158,14 +163,29 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
         return parser;
     }
 
+    /**
+     * Creates a new MVSFTPEntryParser.
+     *
+     * @return  a new MVSFTPEntryParser.
+     */
     public FTPFileEntryParser createMVSEntryParser() {
         return new MVSFTPEntryParser();
     }
 
+    /**
+     * Creates a new NetwareFTPEntryParser.
+     *
+     * @return  a new NetwareFTPEntryParser.
+     */
     public FTPFileEntryParser createNetwareFTPEntryParser() {
         return new NetwareFTPEntryParser();
     }
 
+    /**
+     * Creates a new FTPFileEntryParser.
+     *
+     * @return  a new FTPFileEntryParser.
+     */
     public FTPFileEntryParser createNTFTPEntryParser() {
         return createNTFTPEntryParser(null);
     }
@@ -184,13 +204,23 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
         // clone the config as it may be changed by the parsers (NET-602)
         final FTPClientConfig config2 = config != null ? new FTPClientConfig(config) : null;
         return new CompositeFileEntryParser(new FTPFileEntryParser[] { new NTFTPEntryParser(config),
-                new UnixFTPEntryParser(config2, config2 != null && FTPClientConfig.SYST_UNIX_TRIM_LEADING.equals(config2.getServerSystemKey())) });
+                new UnixFTPEntryParser(config2, config2 != null && FTPClientConfig.SYST_UNIX_TRIM_LEADING.equals(config2.getServerSystemKey()))});
     }
 
+    /**
+     * Creates a new OS2FTPEntryParser.
+     *
+     * @return  a new OS2FTPEntryParser.
+     */
     public FTPFileEntryParser createOS2FTPEntryParser() {
         return new OS2FTPEntryParser();
     }
 
+    /**
+     * Creates a new FTPFileEntryParser.
+     *
+     * @return  a new FTPFileEntryParser.
+     */
     public FTPFileEntryParser createOS400FTPEntryParser() {
         return createOS400FTPEntryParser(null);
     }
@@ -209,13 +239,23 @@ public class DefaultFTPFileEntryParserFactory implements FTPFileEntryParserFacto
         // clone the config as it may be changed by the parsers (NET-602)
         final FTPClientConfig config2 = config != null ? new FTPClientConfig(config) : null;
         return new CompositeFileEntryParser(new FTPFileEntryParser[] { new OS400FTPEntryParser(config),
-                new UnixFTPEntryParser(config2, config2 != null && FTPClientConfig.SYST_UNIX_TRIM_LEADING.equals(config2.getServerSystemKey())) });
+                new UnixFTPEntryParser(config2, config2 != null && FTPClientConfig.SYST_UNIX_TRIM_LEADING.equals(config2.getServerSystemKey()))});
     }
 
+    /**
+     * Creates a new UnixFTPEntryParser.
+     *
+     * @return  a new UnixFTPEntryParser.
+     */
     public FTPFileEntryParser createUnixFTPEntryParser() {
         return new UnixFTPEntryParser();
     }
 
+    /**
+     * Creates a new VMSVersioningFTPEntryParser.
+     *
+     * @return  a new VMSVersioningFTPEntryParser.
+     */
     public FTPFileEntryParser createVMSVersioningFTPEntryParser() {
         return new VMSVersioningFTPEntryParser();
     }

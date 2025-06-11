@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,7 +56,6 @@ public interface TelnetNotificationHandler {
      * Callback method called when TelnetClient receives a command or option negotiation command
      *
      * @param negotiation_code   type of (negotiation) command received (RECEIVED_DO, RECEIVED_DONT, RECEIVED_WILL, RECEIVED_WONT, RECEIVED_COMMAND)
-     *
      * @param option_code        code of the option negotiated, or the command code itself (e.g. NOP).
      */
     void receivedNegotiation(int negotiation_code, int option_code);

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -199,7 +199,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use on this connection. When the underlying {@link java.net.Socket Socket} is not an
+     * Gets the names of the cipher suites which could be enabled for use on this connection. When the underlying {@link java.net.Socket Socket} is not an
      * {@link SSLSocket} instance, returns null.
      *
      * @return An array of cipher suite names, or {@code null}.
@@ -212,7 +212,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Returns the names of the protocol versions which are currently enabled for use on this connection. When the underlying {@link java.net.Socket Socket} is
+     * Gets the names of the protocol versions which are currently enabled for use on this connection. When the underlying {@link java.net.Socket Socket} is
      * not an {@link SSLSocket} instance, returns null.
      *
      * @return An array of protocols, or {@code null}.
@@ -264,7 +264,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Return whether or not endpoint identification using the HTTPS algorithm on Java 1.7+ is enabled. The default behavior is for this to be disabled.
+     * Tests whether or not endpoint identification using the HTTPS algorithm on Java 1.7+ is enabled. The default behavior is for this to be disabled.
      *
      * @return True if enabled, false if not.
      * @since 3.4
@@ -312,7 +312,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Controls which particular cipher suites are enabled for use on this connection. Called before server negotiation.
+     * Sets which particular cipher suites are enabled for use on this connection. Called before server negotiation.
      *
      * @param cipherSuites The cipher suites.
      */
@@ -321,7 +321,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Controls which particular protocol versions are enabled for use on this connection. I perform setting before a server negotiation.
+     * Sets which particular protocol versions are enabled for use on this connection. I perform setting before a server negotiation.
      *
      * @param protocolVersions The protocol versions.
      */
@@ -330,7 +330,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Automatic endpoint identification checking using the HTTPS algorithm is supported on Java 1.7+. The default behavior is for this to be disabled.
+     * Sets automatic endpoint identification checking using the HTTPS algorithm is supported on Java 1.7+. The default behavior is for this to be disabled.
      *
      * @param enable Enable automatic endpoint identification checking using the HTTPS algorithm on Java 1.7+.
      * @since 3.4
@@ -340,7 +340,7 @@ public class SMTPSClient extends SMTPClient {
     }
 
     /**
-     * Override the default {@link HostnameVerifier} to use.
+     * Sets to override the default {@link HostnameVerifier} to use.
      *
      * @param newHostnameVerifier The HostnameVerifier implementation to set or {@code null} to disable.
      * @since 3.4

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.Duration;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.tftp.TFTP;
 import org.apache.commons.net.tftp.TFTPClient;
 import org.apache.commons.net.tftp.TFTPPacket;
@@ -50,9 +51,7 @@ public final class TFTPExample {
         boolean closed;
         tftp.close();
         try {
-            if (output != null) {
-                output.close();
-            }
+            IOUtils.close(output);
             closed = true;
         } catch (final IOException e) {
             closed = false;
@@ -62,9 +61,17 @@ public final class TFTPExample {
         return closed;
     }
 
+    /**
+     * Runs this application.
+     *
+     * @param args command line arguments.
+     * @throws IOException if a network or I/O error occurs.
+     */
     public static void main(final String[] args) throws IOException {
-        boolean receiveFile = true, closed;
-        int transferMode = TFTP.BINARY_MODE, argc;
+        boolean receiveFile = true;
+        boolean closed;
+        int transferMode = TFTP.BINARY_MODE;
+        int argc;
         String arg;
         final String hostname;
         final String localFilename;
@@ -170,7 +177,7 @@ public final class TFTPExample {
             System.err.println("Error: " + localFilename + " already exists.");
             return false;
         }
-        FileOutputStream output;
+        final FileOutputStream output;
         // Try to open local file for writing
         try {
             output = new FileOutputStream(file);
@@ -205,7 +212,7 @@ public final class TFTPExample {
 
     private static boolean send(final int transferMode, final String hostname, final String localFilename, final String remoteFilename, final TFTPClient tftp)
             throws IOException {
-        FileInputStream input;
+        final FileInputStream input;
         // Try to open local file for reading
         try {
             input = new FileInputStream(localFilename);

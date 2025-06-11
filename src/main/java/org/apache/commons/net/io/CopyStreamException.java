@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,9 @@ import java.io.IOException;
 public class CopyStreamException extends IOException {
     private static final long serialVersionUID = -2602899129433221532L;
 
+    /**
+     * The total number of bytes confirmed to have been transferred by a failed copy operation.
+     */
     private final long totalBytesTransferred;
 
     /**
@@ -38,13 +41,12 @@ public class CopyStreamException extends IOException {
      * @param exception        The IOException thrown during a copy operation.
      */
     public CopyStreamException(final String message, final long bytesTransferred, final IOException exception) {
-        super(message);
-        initCause(exception); // merge this into super() call once we need 1.6+
+        super(message, exception);
         totalBytesTransferred = bytesTransferred;
     }
 
     /**
-     * Returns the IOException responsible for the failure of a copy operation.
+     * Gets the IOException responsible for the failure of a copy operation.
      *
      * @return The IOException responsible for the failure of a copy operation.
      */
@@ -53,7 +55,7 @@ public class CopyStreamException extends IOException {
     }
 
     /**
-     * Returns the total number of bytes confirmed to have been transferred by a failed copy operation.
+     * Gets the total number of bytes confirmed to have been transferred by a failed copy operation.
      *
      * @return The total number of bytes confirmed to have been transferred by a failed copy operation.
      */

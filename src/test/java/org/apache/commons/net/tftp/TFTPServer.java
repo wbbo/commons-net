@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,6 +34,7 @@ import java.time.Duration;
 import java.util.Enumeration;
 import java.util.HashSet;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.io.FromNetASCIIOutputStream;
 import org.apache.commons.net.io.ToNetASCIIInputStream;
 
@@ -239,13 +240,7 @@ public class TFTPServer implements Runnable, AutoCloseable {
                     }
                 }
             } finally {
-                try {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                } catch (final IOException e) {
-                    // noop
-                }
+                IOUtils.closeQuietly(inputStream);
             }
         }
 
@@ -371,9 +366,7 @@ public class TFTPServer implements Runnable, AutoCloseable {
                     }
                 }
             } finally {
-                if (bos != null) {
-                    bos.close();
-                }
+                IOUtils.close(bos);
             }
         }
 
@@ -607,6 +600,7 @@ public class TFTPServer implements Runnable, AutoCloseable {
     @Override
     protected void finalize() throws Throwable {
         close();
+        super.finalize();
     }
 
     /**
@@ -686,7 +680,7 @@ public class TFTPServer implements Runnable, AutoCloseable {
     }
 
     /*
-     * Allow test code to customise the TFTP instance
+     * Allow test code to customize the TFTP instance
      */
     TFTP newTFTP() {
         return new TFTP();
@@ -723,7 +717,7 @@ public class TFTPServer implements Runnable, AutoCloseable {
     }
 
     /*
-     * Also allow customisation of sending data/ack so can generate errors if needed
+     * Also allow customization of sending data/ack so can generate errors if needed
      */
     void sendData(final TFTP tftp, final TFTPPacket data) throws IOException {
         tftp.bufferedSend(data);

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *   https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,11 +58,11 @@ public class MLSDComparison {
         return a.getName().equals(b.getName()) && areSame(a.getSize(), b.getSize(), -1L) &&
 //            areSame(a.getUser(), b.getUser()) &&
 //            areSame(a.getGroup(), b.getGroup()) &&
-                areSame(a.getTimestamp(), b.getTimestamp()) &&
+                areSame(a.getTimestamp(), b.getTimestamp())
 //            areSame(a.getType(), b.getType(), UNKNOWN_TYPE) &&
 //            areSame(a.getHardLinkCount(), b.getHardLinkCount(), 0) &&
 //            areSame(a._permissions, b._permissions)
-                true;
+              ;
     }
 
     private boolean areSame(final Calendar a, final Calendar b) {
@@ -103,10 +103,12 @@ public class MLSDComparison {
     private void compareSortedLists(final FTPFile[] lst, final FTPFile[] mlst) {
         Arrays.sort(lst, cmp);
         Arrays.sort(mlst, cmp);
-        FTPFile first, second;
+        FTPFile first;
+        FTPFile second;
         final int firstl = lst.length;
         final int secondl = mlst.length;
-        int one = 0, two = 0;
+        int one = 0;
+        int two = 0;
         first = lst[one++];
         second = mlst[two++];
         int cmp;

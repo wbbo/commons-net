@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@ import java.util.Objects;
 
 /**
  * The NewGroupsOrNewsQuery class. This is used to issue NNTP NEWGROUPS and NEWNEWS queries, implemented by
- * {@link org.apache.commons.net.nntp.NNTPClient#listNewNewsgroups listNewNewsGroups } and {@link org.apache.commons.net.nntp.NNTPClient#listNewNews listNewNews
+ * {@link org.apache.commons.net.nntp.NNTPClient#listNewNewsgroups listNewNewsGroups} and {@link org.apache.commons.net.nntp.NNTPClient#listNewNews listNewNews
  * } respectively. It prevents you from having to format date, time, distribution, and newgroup arguments.
  * <p>
  * You might use the class as follows:
@@ -40,7 +40,8 @@ import java.util.Objects;
  */
 
 public final class NewGroupsOrNewsQuery {
-    private final String date, time;
+    private final String date;
+    private final String time;
     private StringBuffer distributions;
     private StringBuffer newsgroups;
     private final boolean isGMT;
@@ -183,7 +184,7 @@ public final class NewGroupsOrNewsQuery {
     }
 
     /**
-     * Return the NNTP query formatted date (year, month, day in the form YYMMDD).
+     * Gets the NNTP query formatted date (year, month, day in the form YYMMDD).
      *
      * @return The NNTP query formatted date.
      */
@@ -192,7 +193,7 @@ public final class NewGroupsOrNewsQuery {
     }
 
     /**
-     * Return the comma separated list of distributions. This may be null if there are no distributions.
+     * Gets the comma separated list of distributions. This may be null if there are no distributions.
      *
      * @return The list of distributions, which may be null if no distributions have been specified.
      */
@@ -201,7 +202,7 @@ public final class NewGroupsOrNewsQuery {
     }
 
     /**
-     * Return the comma separated list of newsgroups. This may be null if there are no newsgroups
+     * Gets the comma separated list of newsgroups. This may be null if there are no newsgroups
      *
      * @return The list of newsgroups, which may be null if no newsgroups have been specified.
      */
@@ -210,7 +211,7 @@ public final class NewGroupsOrNewsQuery {
     }
 
     /**
-     * Return the NNTP query formatted time (hour, minutes, seconds in the form HHMMSS).
+     * Gets the NNTP query formatted time (hour, minutes, seconds in the form HHMMSS).
      *
      * @return The NNTP query formatted time.
      */
@@ -219,7 +220,7 @@ public final class NewGroupsOrNewsQuery {
     }
 
     /**
-     * Return whether or not the query date should be treated as GMT.
+     * Tests whether or not the query date should be treated as GMT.
      *
      * @return True if the query date is to be treated as GMT, false if not.
      */

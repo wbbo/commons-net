@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,7 @@ package org.apache.commons.net.ntp;
 public final class NtpUtils {
 
     /**
-     * Returns 32-bit integer address to IPv4 address string "%d.%d.%d.%d" format.
+     * Gets the 32-bit integer address to IPv4 address string "%d.%d.%d.%d" format.
      *
      * @param address the 32-bit address
      * @return the raw IP address in a string format.
@@ -33,7 +33,7 @@ public final class NtpUtils {
     }
 
     /**
-     * Return human-readable name of message mode type (RFC 1305).
+     * Gets a human-readable name of message mode type (RFC 1305).
      *
      * @param mode the mode type
      * @return mode name
@@ -62,7 +62,7 @@ public final class NtpUtils {
     }
 
     /**
-     * Returns NTP packet reference identifier as IP address.
+     * Gets the NTP packet reference identifier as IP address.
      *
      * @param packet NTP packet
      * @return the packet reference id (as IP address) in "%d.%d.%d.%d" format.
@@ -102,4 +102,13 @@ public final class NtpUtils {
         return buf.toString();
     }
 
+    /**
+     * Constructs a new instance.
+     *
+     * @deprecated Will be private in the next major release.
+     */
+    @Deprecated
+    public NtpUtils() {
+        // empty
+    }
 }

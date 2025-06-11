@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,7 +33,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
     private final PrintWriter writer;
     private final boolean nologin;
     private final char eolMarker;
-
     private final boolean directionMarker;
 
     /**
@@ -52,7 +51,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
      *
      * @param printStream        where to write the commands and responses
      * @param suppressLogin if {@code true}, only print command name for login
-     *
      * @since 3.0
      */
     @SuppressWarnings("resource")
@@ -66,7 +64,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
      * @param printStream        where to write the commands and responses
      * @param suppressLogin if {@code true}, only print command name for login
      * @param eolMarker     if non-zero, add a marker just before the EOL.
-     *
      * @since 3.0
      */
     @SuppressWarnings("resource")
@@ -81,7 +78,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
      * @param suppressLogin if {@code true}, only print command name for login
      * @param eolMarker     if non-zero, add a marker just before the EOL.
      * @param showDirection if {@code true}, add {@code "> "} or {@code "< "} as appropriate to the output
-     *
      * @since 3.0
      */
     @SuppressWarnings("resource")
@@ -103,7 +99,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
      *
      * @param writer        where to write the commands and responses
      * @param suppressLogin if {@code true}, only print command name for login
-     *
      * @since 3.0
      */
     public PrintCommandListener(final PrintWriter writer, final boolean suppressLogin) {
@@ -116,7 +111,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
      * @param writer        where to write the commands and responses
      * @param suppressLogin if {@code true}, only print command name for login
      * @param eolMarker     if non-zero, add a marker just before the EOL.
-     *
      * @since 3.0
      */
     public PrintCommandListener(final PrintWriter writer, final boolean suppressLogin, final char eolMarker) {
@@ -130,7 +124,6 @@ public class PrintCommandListener implements ProtocolCommandListener {
      * @param suppressLogin if {@code true}, only print command name for login
      * @param eolMarker     if non-zero, add a marker just before the EOL.
      * @param showDirection if {@code true}, add {@code ">} " or {@code "< "} as appropriate to the output
-     *
      * @since 3.0
      */
     public PrintCommandListener(final PrintWriter writer, final boolean suppressLogin, final char eolMarker, final boolean showDirection) {
@@ -146,7 +139,7 @@ public class PrintCommandListener implements ProtocolCommandListener {
         }
         final int pos = msg.indexOf(SocketClient.NETASCII_EOL);
         if (pos > 0) {
-            final StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder(msg + 1);
             sb.append(msg.substring(0, pos));
             sb.append(eolMarker);
             sb.append(msg.substring(pos));
@@ -187,7 +180,12 @@ public class PrintCommandListener implements ProtocolCommandListener {
         if (directionMarker) {
             writer.print("< ");
         }
-        writer.print(event.getMessage());
+        final String message = event.getMessage();
+        final char last = message.charAt(message.length() - 1);
+        writer.print(message);
+        if (last != '\r' && last != '\n') {
+            writer.println();
+        }
         writer.flush();
     }
 }

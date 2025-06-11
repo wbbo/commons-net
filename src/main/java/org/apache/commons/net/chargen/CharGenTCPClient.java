@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,13 +27,13 @@ import org.apache.commons.net.SocketClient;
  * stream. The chargen protocol actually sends data until the receiving end closes the connection. All the others send only a fixed amount of data and then
  * close the connection.
  * <p>
- * To use the CharGenTCPClient class, just establish a connection with {@link org.apache.commons.net.SocketClient#connect connect } and call
- * {@link #getInputStream getInputStream() } to access the data. Don't close the input stream when you're done with it. Rather, call
- * {@link org.apache.commons.net.SocketClient#disconnect disconnect } to clean up properly.
+ * To use the CharGenTCPClient class, just establish a connection with {@link org.apache.commons.net.SocketClient#connect connect} and call
+ * {@link #getInputStream getInputStream()} to access the data. Don't close the input stream when you're done with it. Rather, call
+ * {@link org.apache.commons.net.SocketClient#disconnect disconnect} to clean up properly.
+ * </p>
  *
  * @see CharGenUDPClient
  */
-
 public final class CharGenTCPClient extends SocketClient {
 
     /** The systat port value of 11 according to RFC 866. */
@@ -52,15 +52,15 @@ public final class CharGenTCPClient extends SocketClient {
     public static final int DEFAULT_PORT = 19;
 
     /**
-     * The default constructor for CharGenTCPClient. It merely sets the default port to {@code DEFAULT_PORT}.
+     * Constructs a new instance. It merely sets the default port to {@code DEFAULT_PORT}.
      */
     public CharGenTCPClient() {
         setDefaultPort(DEFAULT_PORT);
     }
 
     /**
-     * Returns an InputStream from which the server generated data can be read. You should NOT close the InputStream when you're finished reading from it.
-     * Rather, you should call {@link org.apache.commons.net.SocketClient#disconnect disconnect } to clean up properly.
+     * Gets an InputStream from which the server generated data can be read. You should NOT close the InputStream when you're finished reading from it.
+     * Rather, you should call {@link org.apache.commons.net.SocketClient#disconnect disconnect} to clean up properly.
      *
      * @return An InputStream from which the server generated data can be read.
      */

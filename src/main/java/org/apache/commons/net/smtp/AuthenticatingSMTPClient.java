@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -152,7 +152,6 @@ public class AuthenticatingSMTPClient extends SMTPSClient {
      * @param user the user name. If the method is XOAUTH/XOAUTH2, then this is used as the plain text oauth protocol parameter string which is
      *                 Base64-encoded for transmission.
      * @param password the password for the username. Ignored for XOAUTH/XOAUTH2.
-     *
      * @return True if successfully completed, false if not.
      * @throws SMTPConnectionClosedException If the SMTP server prematurely closes the connection as a result of the client being idle or some other reason
      *                                       causing the server to send SMTP reply code 421. This exception may be caught either as an IOException or
@@ -273,7 +272,7 @@ public class AuthenticatingSMTPClient extends SMTPSClient {
     }
 
     /**
-     * Returns the integer values of the enhanced reply code of the last SMTP reply.
+     * Gets the integer values of the enhanced reply code of the last SMTP reply.
      *
      * @return The integer values of the enhanced reply code of the last SMTP reply. First digit is in the first array element.
      */

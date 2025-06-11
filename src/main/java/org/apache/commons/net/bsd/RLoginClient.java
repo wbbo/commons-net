@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,16 +27,19 @@ import java.io.IOException;
  * <p>
  * As with virtually all the client classes in org.apache.commons.net, this class derives from SocketClient. But it relies on the connection methods defined
  * in RcommandClient which ensure that the local Socket will originate from an acceptable rshell port. The way to use RLoginClient is to first connect to the
- * server, call the {@link #rlogin rlogin() } method, and then fetch the connection's input and output streams. Interaction with the remote command is
+ * server, call the {@link #rlogin rlogin()} method, and then fetch the connection's input and output streams. Interaction with the remote command is
  * controlled entirely through the I/O streams. Once you have finished processing the streams, you should invoke
- * {@link org.apache.commons.net.bsd.RExecClient#disconnect disconnect() } to clean up properly.
+ * {@link org.apache.commons.net.bsd.RExecClient#disconnect disconnect()} to clean up properly.
+ * </p>
  * <p>
  * The standard output and standard error streams of the remote process are transmitted over the same connection, readable from the input stream returned by
- * {@link org.apache.commons.net.bsd.RExecClient#getInputStream getInputStream() }
+ * {@link org.apache.commons.net.bsd.RExecClient#getInputStream getInputStream()}
+ * </p>
  * <p>
  * Unlike RExecClient and RCommandClient, it is not possible to tell the rlogind daemon to return the standard error stream over a separate connection.
- * {@link org.apache.commons.net.bsd.RExecClient#getErrorStream getErrorStream() } will always return null. The standard input of the remote process can be
- * written to through the output stream returned by {@link org.apache.commons.net.bsd.RExecClient#getOutputStream getOutputSream() }
+ * {@link org.apache.commons.net.bsd.RExecClient#getErrorStream getErrorStream()} will always return null. The standard input of the remote process can be
+ * written to through the output stream returned by {@link org.apache.commons.net.bsd.RExecClient#getOutputStream getOutputSream()}
+ * </p>
  *
  * @see org.apache.commons.net.SocketClient
  * @see RExecClient
@@ -45,7 +48,7 @@ import java.io.IOException;
 public class RLoginClient extends RCommandClient {
 
     /**
-     * The default rlogin port. Set to 513 in BSD UNIX and according to RFC 1282.
+     * The default rlogin port. Set to 513 in BSD Unix and according to RFC 1282.
      */
     public static final int DEFAULT_PORT = 513;
 
@@ -77,6 +80,7 @@ public class RLoginClient extends RCommandClient {
      * <p>
      * If user authentication fails, the rlogind daemon will request that a password be entered interactively. You will be able to read the prompt from the
      * output stream of the RLoginClient and write the password to the input stream of the RLoginClient.
+     * </p>
      *
      * @param localUserName  The user account on the local machine that is trying to log in to the remote host.
      * @param remoteUserName The account name on the server that is being logged in to.

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,17 +33,20 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.net.MockTcpServer;
 
 /**
- * The MockDaytimeTCPServer class is a simple TCP implementation of a server for the Daytime Protocol described in <a href="https://datatracker.ietf.org/doc/html/rfc867">RFC 867</a>.
+ * The MockDaytimeTCPServer class is a simple TCP implementation of a server for the Daytime Protocol described in
+ * <a href="https://datatracker.ietf.org/doc/html/rfc867">RFC 867</a>.
  * <p>
- * Listens for TCP socket connections on the daytime protocol port and writes the local day time to socket {@code outputStream} as {@link String}
- * in format {@code EEEE, MMMM d, uuuu, HH:mm:ss-z}.
- * See the <a href="https://datatracker.ietf.org/doc/html/rfc867"> RFC-867 spec </a> for more details.
- * <p>
- * <p>
- * This implementation uses {@link MockDaytimeTCPServer#enqueue(Clock)} and {@link BlockingQueue<Clock>} to queue next {@link Clock} that will be used to obtain and
- * write daytime data into {@code clientSocket}.
+ * Listens for TCP socket connections on the daytime protocol port and writes the local day time to socket {@code outputStream} as {@link String} in format
+ * {@code EEEE, MMMM d, uuuu, HH:mm:ss-z}. See the <a href="https://datatracker.ietf.org/doc/html/rfc867"> RFC-867 spec </a> for more details.
  * </p>
- * <p>NOTE: this is for <b>debugging and testing purposes only</b> and not meant to be run as a reliable server.</p>
+ * <p>
+ * This implementation uses {@link MockDaytimeTCPServer#enqueue(Clock)} and {@link BlockingQueue<Clock>} to queue next {@link Clock} that will be used to obtain
+ * and write daytime data into {@code clientSocket}.
+ * </p>
+ * <p>
+ * NOTE: this is for <strong>debugging and testing purposes only</strong> and not meant to be run as a reliable server.
+ * </p>
+ *
  * @see MockTcpServer
  * @see DaytimeTCPClientTest DaytimeTCPClientTest (for example usage in tests)
  */

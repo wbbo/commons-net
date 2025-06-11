@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -82,12 +82,19 @@ public final class FTPSCommand {
     private static final String[] commands = { "AUTH", "ADAT", "PBSZ", "PROT", "CCC" };
 
     /**
-     * Retrieve the FTPS command string corresponding to a specified command code.
+     * Gets the FTPS command string corresponding to a specified command code.
      *
      * @param command The command code.
      * @return The FTPS command string corresponding to a specified command code.
      */
     public static String getCommand(final int command) {
         return commands[command];
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+    public FTPSCommand() {
+        // empty
     }
 }

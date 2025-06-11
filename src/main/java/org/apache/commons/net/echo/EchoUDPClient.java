@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,8 @@ import org.apache.commons.net.util.NetConstants;
 
 /**
  * The EchoUDPClient class is a UDP implementation of a client for the Echo protocol described in RFC 862. To use the class, just open a local UDP port with
- * {@link org.apache.commons.net.DatagramSocketClient#open open } and call {@link #send send } to send datagrams to the server, then call {@link #receive
- * receive } to receive echoes. After you're done echoing data, call {@link org.apache.commons.net.DatagramSocketClient#close close() } to clean up properly.
+ * {@link org.apache.commons.net.DatagramSocketClient#open open} and call {@link #send send} to send datagrams to the server, then call {@link #receive
+ * receive } to receive echoes. After you're done echoing data, call {@link org.apache.commons.net.DatagramSocketClient#close close()} to clean up properly.
  *
  * @see EchoTCPClient
  * @see DiscardUDPClient
@@ -38,6 +38,13 @@ public final class EchoUDPClient extends DiscardUDPClient {
     public static final int DEFAULT_PORT = 7;
 
     private final DatagramPacket receivePacket = new DatagramPacket(NetConstants.EMPTY_BTYE_ARRAY, 0);
+
+    /**
+     * Constructs a new instance.
+     */
+    public EchoUDPClient() {
+        // empty
+    }
 
     /**
      * Same as {@code receive(data, data.length)}
@@ -56,7 +63,6 @@ public final class EchoUDPClient extends DiscardUDPClient {
      *
      * @param data   the buffer to receive the input
      * @param length of the buffer
-     *
      * @return Length of actual data received.
      * @throws IOException If an error occurs while receiving the data.
      */

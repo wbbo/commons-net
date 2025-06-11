@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -241,7 +241,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             + "((\\S+\\s*)+)?"; // file name, missing, when CWD is a *FILE
 
     /**
-     * The default constructor for a OS400FTPEntryParser object.
+     * Constructs a new instance.
      *
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen under normal conditions. If it is seen, this is a
      *                                  sign that {@code REGEX} is not a valid regular expression.
@@ -251,7 +251,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * This constructor allows the creation of an OS400FTPEntryParser object with something other than the default configuration.
+     * Constructs a new instance with something other than the default configuration.
      *
      * @param config The {@link FTPClientConfig configuration} object used to configure this parser.
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen under normal conditions. If it is seen, this is a
@@ -264,7 +264,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * Defines a default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
+     * Gets a new default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
      *
      * @return the default configuration for this parser.
      */
@@ -291,7 +291,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
 
         if (matches(entry)) {
             final String usr = group(1);
-            final String filesize = group(2);
+            final String fileSize = group(2);
             String datestr = "";
             if (!isNullOrEmpty(group(3)) || !isNullOrEmpty(group(4))) {
                 datestr = group(3) + " " + group(4);
@@ -309,12 +309,12 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
 
             if (typeStr.equalsIgnoreCase("*STMF")) {
                 type = FTPFile.FILE_TYPE;
-                if (isNullOrEmpty(filesize) || isNullOrEmpty(name)) {
+                if (isNullOrEmpty(fileSize) || isNullOrEmpty(name)) {
                     return null;
                 }
             } else if (typeStr.equalsIgnoreCase("*DIR")) {
                 type = FTPFile.DIRECTORY_TYPE;
-                if (isNullOrEmpty(filesize) || isNullOrEmpty(name)) {
+                if (isNullOrEmpty(fileSize) || isNullOrEmpty(name)) {
                     return null;
                 }
             } else if (typeStr.equalsIgnoreCase("*FILE")) {
@@ -337,7 +337,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
                 if (isNullOrEmpty(name)) {
                     return null;
                 }
-                if (!(isNullOrEmpty(filesize) && isNullOrEmpty(datestr))) {
+                if (!(isNullOrEmpty(fileSize) && isNullOrEmpty(datestr))) {
                     return null;
                 }
 
@@ -356,7 +356,7 @@ public class OS400FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             file.setUser(usr);
 
             try {
-                file.setSize(Long.parseLong(filesize));
+                file.setSize(Long.parseLong(fileSize));
             } catch (final NumberFormatException e) {
                 // intentionally do nothing
             }

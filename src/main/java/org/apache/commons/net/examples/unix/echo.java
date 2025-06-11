@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,7 +66,8 @@ public final class echo {
     }
 
     public static void echoUDP(final String host) throws IOException {
-        int length, count;
+        int length;
+        int count;
         byte[] data;
         String line;
         final BufferedReader input;
@@ -91,12 +92,11 @@ public final class echo {
                 do {
                     try {
                         length = client.receive(data);
-                    }
-                    // Here we catch both SocketException and InterruptedIOException,
-                    // because even though the JDK 1.1 docs claim that
-                    // InterruptedIOException is thrown on a timeout, it seems
-                    // SocketException is also thrown.
-                    catch (final SocketException e) {
+                    } catch (final SocketException e) {
+                        // Here we catch both SocketException and InterruptedIOException,
+                        // because even though the JDK 1.1 docs claim that
+                        // InterruptedIOException is thrown on a timeout, it seems
+                        // SocketException is also thrown.
                         // We timed out and assume the packet is lost.
                         System.err.println("SocketException: Timed out and dropped packet");
                         break;

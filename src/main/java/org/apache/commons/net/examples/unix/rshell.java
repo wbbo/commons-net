@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ import org.apache.commons.net.examples.util.IOUtil;
  * be executed on the server. It then reads input from stdin (this will be line buffered on most systems, so don't expect character at a time interactivity),
  * passing it to the remote process and writes the process stdout and stderr to local stdout.
  * <p>
- * On UNIX systems you will not be able to use the rshell capability unless the process runs as root since only root can bind port addresses lower than 1024.
+ * On Unix systems you will not be able to use the rshell capability unless the process runs as root since only root can bind port addresses lower than 1024.
  * <p>
  * Example: java rshell myhost localusername remoteusername "ps -aux"
  * <p>

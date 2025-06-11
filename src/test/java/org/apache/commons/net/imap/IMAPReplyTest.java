@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *   https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -87,7 +87,8 @@ public class IMAPReplyTest {
     @Test
     public void testGetReplyCodeMalformedLine() {
         final String malformedTaggedLine = "A064 FOO-BAR 0";
-        final MalformedServerReplyException replyException = assertThrows(MalformedServerReplyException.class, () -> IMAPReply.getReplyCode(malformedTaggedLine));
+        final MalformedServerReplyException replyException = assertThrows(MalformedServerReplyException.class,
+                () -> IMAPReply.getReplyCode(malformedTaggedLine));
         assertEquals("Received unexpected IMAP protocol response from server: 'A064 FOO-BAR 0'.", replyException.getMessage());
     }
 
@@ -100,13 +101,16 @@ public class IMAPReplyTest {
     @Test
     public void testGetReplyCodeOkLine() throws IOException {
         assertEquals(IMAPReply.OK, IMAPReply.getReplyCode("A001 OK LOGIN completed"));
-        assertEquals(IMAPReply.OK,
-                IMAPReply.getReplyCode("AAAA OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT"
-                        + " SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT"
-                        + " MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS"
-                        + " LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN"
-                        + " CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW"
-                        + " STATUS=SIZE SAVEDATE XLIST LITERAL+ NOTIFY SPECIAL-USE] Logged in"));
+        assertEquals(IMAPReply.OK, IMAPReply.getReplyCode("AAAA OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT"
+                + " SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT" + " MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS"
+                + " LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN"
+                + " CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW"
+                + " STATUS=SIZE SAVEDATE XLIST LITERAL+ NOTIFY SPECIAL-USE] Logged in"));
+        // [NET-734] IMAP login fails with 3.11.1
+        assertEquals(IMAPReply.OK, IMAPReply.getReplyCode(
+                "CBJJ OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ENABLE IDLE ID SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT"
+                        + " MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT"
+                        + " SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE STATUS=SIZE SAVEDATE LITERAL+ QUOTA] Logged in"));
     }
 
     @Test
@@ -125,7 +129,8 @@ public class IMAPReplyTest {
     public void testGetUntaggedReplyCodeMalformedLine() {
         // invalid experimental comm response (missing X prefix)
         final String malformedUntaggedLine = "* FOO-BAR hello-world";
-        final MalformedServerReplyException replyException = assertThrows(MalformedServerReplyException.class, () -> IMAPReply.getUntaggedReplyCode(malformedUntaggedLine));
+        final MalformedServerReplyException replyException = assertThrows(MalformedServerReplyException.class,
+                () -> IMAPReply.getUntaggedReplyCode(malformedUntaggedLine));
         assertEquals("Received unexpected IMAP protocol response from server: '* FOO-BAR hello-world'.", replyException.getMessage());
     }
 
@@ -140,9 +145,8 @@ public class IMAPReplyTest {
         assertEquals(IMAPReply.OK, IMAPReply.getUntaggedReplyCode("* OK Salvage successful, no data lost"));
         assertEquals(IMAPReply.OK,
                 IMAPReply.getUntaggedReplyCode("* OK The Microsoft Exchange IMAP4 service is ready. [xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]"));
-        assertEquals(IMAPReply.OK, IMAPReply.getUntaggedReplyCode(
-                "* OK The Microsoft Exchange IMAP4 service is ready. [TQBXADIAUABSADIAMQAwADEAQwBBADAAMAAzADYALgBuAGEAbQBwAHIAZAAyADEALgBwAHIAbwBkAC4AbwB1AHQAbABvAG8AawAuAGMAbwBtAA==]"));
-
+        assertEquals(IMAPReply.OK, IMAPReply.getUntaggedReplyCode("* OK The Microsoft Exchange IMAP4 service is ready. " +
+                "[TQBXADIAUABSADIAMQAwADEAQwBBADAAMAAzADYALgBuAGEAbQBwAHIAZAAyADEALgBwAHIAbwBkAC4AbwB1AHQAbABvAG8AawAuAGMAbwBtAA==]"));
     }
 
     @Test

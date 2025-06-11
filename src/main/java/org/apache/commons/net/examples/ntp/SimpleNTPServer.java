@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ntp.NtpUtils;
 import org.apache.commons.net.ntp.NtpV3Impl;
 import org.apache.commons.net.ntp.NtpV3Packet;
@@ -102,7 +103,6 @@ public class SimpleNTPServer implements Runnable {
      *
      * @param request incoming DatagramPacket
      * @param rcvTime time packet received
-     *
      * @throws IOException if an I/O error occurs.
      */
     protected void handlePacket(final DatagramPacket request, final long rcvTime) throws IOException {
@@ -198,10 +198,9 @@ public class SimpleNTPServer implements Runnable {
      */
     public void stop() {
         running = false;
-        if (socket != null) {
-            socket.close(); // force closing of the socket
-            socket = null;
-        }
+        // force closing of the socket
+        IOUtils.closeQuietly(socket);
+        socket = null;
         started = false;
     }
 

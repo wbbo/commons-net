@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -92,19 +92,19 @@ final class TelnetOutputStream extends OutputStream {
         synchronized (client) {
             ch &= 0xff;
 
-            if (client.requestedWont(TelnetOption.BINARY)) // i.e. ASCII
-            {
+            // i.e. ASCII
+            if (client.requestedWont(TelnetOption.BINARY)) {
                 if (lastWasCR) {
                     if (CONVERT_TO_CRLF) {
                         client.sendByte('\n');
-                        if (ch == '\n') // i.e. was CRLF anyway
-                        {
+                        if (ch == '\n') {
+                            // i.e. was CRLF anyway
                             lastWasCR = false;
                             return;
                         }
-                    } // __convertCRtoCRLF
-                    else if (ch != '\n') {
-                        client.sendByte('\0'); // RFC854 requires CR NUL for bare CR
+                    } else if (ch != '\n') {
+                        // convertCRtoCRLF
+                        client.sendByte(Telnet.NUL); // RFC854 requires CR NUL for bare CR
                     }
                 }
 
@@ -130,8 +130,8 @@ final class TelnetOutputStream extends OutputStream {
                     lastWasCR = false;
                     break;
                 }
-            } // end ASCII
-            else if (ch == TelnetCommand.IAC) {
+            // end ASCII
+            } else if (ch == TelnetCommand.IAC) {
                 client.sendByte(ch);
                 client.sendByte(TelnetCommand.IAC);
             } else {

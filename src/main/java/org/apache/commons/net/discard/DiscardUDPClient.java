@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,8 @@ import org.apache.commons.net.util.NetConstants;
 
 /**
  * The DiscardUDPClient class is a UDP implementation of a client for the Discard protocol described in RFC 863. To use the class, just open a local UDP port
- * with {@link org.apache.commons.net.DatagramSocketClient#open open } and call {@link #send send } to send datagrams to the server After you're done sending
- * discard data, call {@link org.apache.commons.net.DatagramSocketClient#close close() } to clean up properly.
+ * with {@link org.apache.commons.net.DatagramSocketClient#open open} and call {@link #send send} to send datagrams to the server After you're done sending
+ * discard data, call {@link org.apache.commons.net.DatagramSocketClient#close close()} to clean up properly.
  *
  * @see DiscardTCPClient
  */
@@ -38,6 +38,9 @@ public class DiscardUDPClient extends DatagramSocketClient {
 
     private final DatagramPacket sendPacket;
 
+    /**
+     * Constructs a new instance.
+     */
     public DiscardUDPClient() {
         sendPacket = new DatagramPacket(NetConstants.EMPTY_BTYE_ARRAY, 0);
     }

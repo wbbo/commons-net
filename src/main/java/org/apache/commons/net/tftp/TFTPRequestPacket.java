@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,10 @@ package org.apache.commons.net.tftp;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * An abstract class derived from TFTPPacket definiing a TFTP Request packet type. It is subclassed by the
@@ -30,7 +34,7 @@ import java.nio.charset.Charset;
  * worry about the internals. Additionally, only very few people should have to care about any of the TFTPPacket classes or derived classes. Almost all users
  * should only be concerned with the {@link org.apache.commons.net.tftp.TFTPClient} class {@link org.apache.commons.net.tftp.TFTPClient#receiveFile
  * receiveFile()} and {@link org.apache.commons.net.tftp.TFTPClient#sendFile sendFile()} methods.
- *
+ * </p>
  *
  * @see TFTPPacket
  * @see TFTPReadRequestPacket
@@ -56,6 +60,9 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
 
     /** The file name of the request. */
     private final String fileName;
+
+    /** The option values */
+    private final Map<String, String> options = new HashMap<>();
 
     /**
      * Creates a request packet of a given type to be sent to a host at a given port with a file name and transfer mode request.
@@ -92,6 +99,7 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
 
 
         int index = 2;
+        final int length = datagram.getLength();
         int length = datagram.getLength();
         final byte[] fileNameBytes = new  byte[length];
 
@@ -114,29 +122,51 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
             ++index;
         }
 
-        final String modeString = buffer.toString().toLowerCase(java.util.Locale.ENGLISH);
-        length = modeStrings.length;
+        final String modeString = buffer.toString().toLowerCase(Locale.ENGLISH);
+        final int modeStringsLength = modeStrings.length;
 
         int mode = 0;
-        for (index = 0; index < length; index++) {
-            if (modeString.equals(modeStrings[index])) {
-                mode = index;
+        int modeIndex;
+        for (modeIndex = 0; modeIndex < modeStringsLength; modeIndex++) {
+            if (modeString.equals(modeStrings[modeIndex])) {
+                mode = modeIndex;
                 break;
             }
         }
 
         this.mode = mode;
 
-        if (index >= length) {
+        if (modeIndex >= modeStringsLength) {
             throw new TFTPPacketException("Unrecognized TFTP transfer mode: " + modeString);
             // May just want to default to binary mode instead of throwing
             // exception.
             // _mode = TFTP.OCTET_MODE;
         }
+
+        ++index;
+        while (index < length) {
+            int start = index;
+            for (; data[index] != 0; ++index) {
+                if (index >= length) {
+                    throw new TFTPPacketException("Invalid option format");
+                }
+            }
+            final String option = new String(data, start, index - start, StandardCharsets.US_ASCII);
+            ++index;
+            start = index;
+            for (; data[index] != 0; ++index) {
+                if (index >= length) {
+                    throw new TFTPPacketException("Invalid option format");
+                }
+            }
+            final String octets = new String(data, start, index - start, StandardCharsets.US_ASCII);
+            this.options.put(option, octets);
+            ++index;
+        }
     }
 
     /**
-     * Returns the requested file name.
+     * Gets the requested file name.
      *
      * @return The requested file name.
      */
@@ -145,12 +175,23 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the transfer mode of the request.
+     * Gets the transfer mode of the request.
      *
      * @return The transfer mode of the request.
      */
     public final int getMode() {
         return mode;
+    }
+
+    /**
+     * Gets the options extensions of the request as a map.
+     * The keys are the option names and the values are the option values.
+     *
+     * @return The options extensions of the request as a map.
+     * @since 3.12.0
+     */
+    public final Map<String, String> getOptions() {
+        return options;
     }
 
     /**
@@ -170,12 +211,20 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
         fileLength = fileNameBytes.length;
         modeLength = modeBytes[mode].length;
 
-        data = new byte[fileLength + modeLength + 4];
+        int optionsLength = 0;
+        for (Map.Entry<String, String> entry : options.entrySet()) {
+            optionsLength += entry.getKey().length() + 1 + entry.getValue().length() + 1;
+        }
+        data = new byte[fileLength + modeLength + 3 + optionsLength];
         data[0] = 0;
         data[1] = (byte) type;
         System.arraycopy(fileNameBytes, 0, data, 2, fileLength);
         data[fileLength + 2] = 0;
         System.arraycopy(modeBytes[mode], 0, data, fileLength + 3, modeLength);
+
+        if (optionsLength > 0) {
+            handleOptions(data, fileLength, modeLength);
+        }
 
         return new DatagramPacket(data, data.length, address, port);
     }
@@ -203,11 +252,29 @@ public abstract class TFTPRequestPacket extends TFTPPacket {
         data[fileLength + 2] = 0;
         System.arraycopy(modeBytes[mode], 0, data, fileLength + 3, modeLength);
 
+        handleOptions(data, fileLength, modeLength);
+
         datagram.setAddress(address);
         datagram.setPort(port);
         datagram.setData(data);
         datagram.setLength(fileLength + modeLength + 3);
 
         return datagram;
+    }
+
+    private void handleOptions(byte[] data, int fileLength, int modeLength) {
+        int index = fileLength + modeLength + 2;
+        for (Map.Entry<String, String> entry : options.entrySet()) {
+            data[index] = 0;
+            final String key = entry.getKey();
+            final String value = entry.getValue();
+
+            System.arraycopy(key.getBytes(StandardCharsets.US_ASCII), 0, data, ++index, key.length());
+            index += key.length();
+            data[index++] = 0;
+
+            System.arraycopy(value.getBytes(StandardCharsets.US_ASCII), 0, data, index, value.length());
+            index += value.length();
+        }
     }
 }

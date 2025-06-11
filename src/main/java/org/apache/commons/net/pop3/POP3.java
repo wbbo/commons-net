@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -126,7 +126,7 @@ public class POP3 extends SocketClient {
     }
 
     /**
-     * Retrieves the additional lines of a multi-line server reply.
+     * Gets the additional lines of a multi-line server reply.
      *
      * @throws IOException on error
      */
@@ -178,10 +178,10 @@ public class POP3 extends SocketClient {
     }
 
     /**
-     * Returns the reply to the last command sent to the server. The value is a single string containing all the reply lines including newlines. If the reply is
-     * a single line, but its format ndicates it should be a multiline reply, then you must call {@link #getAdditionalReply getAdditionalReply() } to fetch the
+     * Gets the reply to the last command sent to the server. The value is a single string containing all the reply lines including newlines. If the reply is
+     * a single line, but its format ndicates it should be a multiline reply, then you must call {@link #getAdditionalReply getAdditionalReply()} to fetch the
      * rest of the reply, and then call {@code getReplyString} again. You only have to worry about this if you are implementing your own client using the
-     * {@link #sendCommand sendCommand } methods.
+     * {@link #sendCommand sendCommand} methods.
      *
      * @return The last server response.
      */
@@ -197,10 +197,10 @@ public class POP3 extends SocketClient {
     }
 
     /**
-     * Returns an array of lines received as a reply to the last command sent to the server. The lines have end of lines truncated. If the reply is a single
-     * line, but its format ndicates it should be a multiline reply, then you must call {@link #getAdditionalReply getAdditionalReply() } to fetch the rest of
+     * Gets an array of lines received as a reply to the last command sent to the server. The lines have end of lines truncated. If the reply is a single
+     * line, but its format ndicates it should be a multiline reply, then you must call {@link #getAdditionalReply getAdditionalReply()} to fetch the rest of
      * the reply, and then call {@code getReplyStrings} again. You only have to worry about this if you are implementing your own client using the
-     * {@link #sendCommand sendCommand } methods.
+     * {@link #sendCommand sendCommand} methods.
      *
      * @return The last server response.
      */
@@ -209,7 +209,7 @@ public class POP3 extends SocketClient {
     }
 
     /**
-     * Returns the current POP3 client state.
+     * Gets the current POP3 client state.
      *
      * @return The current POP3 client state.
      */
@@ -275,21 +275,16 @@ public class POP3 extends SocketClient {
         if (writer == null) {
             throw new IllegalStateException("Socket is not connected");
         }
-        final StringBuilder __commandBuffer = new StringBuilder();
-        __commandBuffer.append(command);
-
+        final StringBuilder builder = new StringBuilder(command);
         if (args != null) {
-            __commandBuffer.append(' ');
-            __commandBuffer.append(args);
+            builder.append(' ');
+            builder.append(args);
         }
-        __commandBuffer.append(NETASCII_EOL);
-
-        final String message = __commandBuffer.toString();
+        builder.append(NETASCII_EOL);
+        final String message = builder.toString();
         writer.write(message);
         writer.flush();
-
         fireCommandSent(command, message);
-
         getReply();
         return replyCode;
     }

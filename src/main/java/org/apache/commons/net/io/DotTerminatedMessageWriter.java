@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@ import java.io.Writer;
  * <p>
  * This class handles the doubling of line-starting periods, converts single linefeeds to NETASCII newlines, and on closing will send the final message
  * terminator dot and NETASCII newline sequence.
+ * </p>
  */
 public final class DotTerminatedMessageWriter extends Writer {
     private static final int NOTHING_SPECIAL_STATE = 0;
@@ -140,7 +141,7 @@ public final class DotTerminatedMessageWriter extends Writer {
                 if (state == LAST_WAS_NL_STATE) {
                     output.write('.');
                 }
-                //$FALL-THROUGH$
+                // falls through$
             default:
                 state = NOTHING_SPECIAL_STATE;
                 output.write(ch);

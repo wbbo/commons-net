@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Arrays;
 
@@ -47,29 +48,57 @@ import org.apache.commons.net.util.TrustManagerUtils;
  */
 public final class FTPClientExample {
 
+    /**
+     * Command line usage.
+     */
+    // @formatter:off
     public static final String USAGE = "Expected Parameters: [options] <hostname> <user> <password> [<remote file> [<local file>]]\n"
-            + "\nDefault behavior is to download a file and use ASCII transfer mode.\n" + "\t-a - use local active mode (default is local passive)\n"
-            + "\t-A - anonymous login (omit user and password parameters)\n" + "\t-b - use binary transfer mode\n"
+            + "\nDefault behavior is to download a file and use ASCII transfer mode.\n"
+            + "\t-a - use local active mode (default is local passive)\n"
+            + "\t-A - anonymous login (omit user and password parameters)\n"
+            + "\t-b - use binary transfer mode\n"
             + "\t-c cmd - issue arbitrary command (remote is used as a parameter if provided) \n"
-            + "\t-d - list directory details using MLSD (remote is used as the pathname if provided)\n" + "\t-e - use EPSV with IPv4 (default false)\n"
-            + "\t-E - encoding to use for control channel\n" + "\t-f - issue FEAT command (remote and local files are ignored)\n"
-            + "\t-h - list hidden files (applies to -l and -n only)\n" + "\t-i - issue SIZE command for a file\n"
-            + "\t-k secs - use keep-alive timer (setControlKeepAliveTimeout)\n" + "\t-l - list files using LIST (remote is used as the pathname if provided)\n"
+            + "\t-d - list directory details using MLSD (remote is used as the path if provided)\n"
+            + "\t-e - use EPSV with IPv4 (default false)\n"
+            + "\t-E - encoding to use for control channel\n"
+            + "\t-f - issue FEAT command (remote and local files are ignored)\n"
+            + "\t-h - list hidden files (applies to -l and -n only)\n"
+            + "\t-i - issue SIZE command for a file\n"
+            + "\t-k secs - use keep-alive timer (setControlKeepAliveTimeout)\n"
+            + "\t-l - list files using LIST (remote is used as the path if provided)\n"
             + "\t     Files are listed twice: first in raw mode, then as the formatted parsed data.\n"
             + "\t     N.B. if the wrong server-type is used, output may be lost. Use -U or -S as necessary.\n"
             + "\t-L - use lenient future dates (server dates may be up to 1 day into future)\n"
-            + "\t-m - list file details using MDTM (remote is used as the pathname if provided)\n"
-            + "\t-n - list file names using NLST (remote is used as the pathname if provided)\n"
+            + "\t-m - list file details using MDTM (remote is used as the path if provided)\n"
+            + "\t-n - list file names using NLST (remote is used as the path if provided)\n"
+            + "\t--OPTS \"opts-cmd command-name command-options\" - Sends the OPTS\n"
             + "\t-p true|false|protocol[,true|false] - use FTPSClient with the specified protocol and/or isImplicit setting\n"
-            + "\t-s - store file on server (upload)\n" + "\t-S - systemType set server system type (e.g. UNIX VMS WINDOWS)\n"
-            + "\t-t - list file details using MLST (remote is used as the pathname if provided)\n" + "\t-U - save unparseable responses\n"
+            + "\t-s - store file on server (upload)\n"
+            + "\t-S - systemType set server system type (e.g. Unix VMS WINDOWS)\n"
+            + "\t-t - list file details using MLST (remote is used as the path if provided)\n"
+            + "\t-U - save unparseable responses\n"
             + "\t-w msec - wait time for keep-alive reply (setControlKeepAliveReplyTimeout)\n"
             + "\t-T  all|valid|none - use one of the built-in TrustManager implementations (none = JVM default)\n"
             + "\t-y format - set default date format string\n" + "\t-Y format - set recent date format string\n"
             + "\t-Z timezone - set the server time zone for parsing LIST responses\n"
             + "\t-z timezone - set the time zone for displaying MDTM, LIST, MLSD, MLST responses\n"
-            + "\t-PrH server[:port] - HTTP Proxy host and optional port[80] \n" + "\t-PrU user - HTTP Proxy server user\n"
-            + "\t-PrP password - HTTP Proxy server password\n" + "\t-# - add hash display during transfers\n";
+            + "\t-PrH server[:port] - HTTP Proxy host and optional port[80] \n"
+            + "\t-PrU user - HTTP Proxy server user\n"
+            + "\t-PrP password - HTTP Proxy server password\n"
+            + "\t-# - add hash display during transfers\n";
+    // @formatter:on
+
+    private static void configure(final FTPClient ftp, final FTPClientConfig config, final String defaultDateFormat, final String recentDateFormat,
+            final boolean saveUnparseable) {
+        config.setUnparseableEntries(saveUnparseable);
+        if (defaultDateFormat != null) {
+            config.setDefaultDateFormatStr(defaultDateFormat);
+        }
+        if (recentDateFormat != null) {
+            config.setRecentDateFormatStr(recentDateFormat);
+        }
+        ftp.configure(config);
+    }
 
     private static CopyStreamListener createListener() {
         return new CopyStreamListener() {
@@ -92,9 +121,20 @@ public final class FTPClientExample {
     }
 
     public static void main(final String[] args) throws UnknownHostException {
-        boolean storeFile = false, binaryTransfer = false, error = false, listFiles = false, listNames = false, hidden = false;
-        boolean localActive = false, useEpsvWithIPv4 = false, feat = false, printHash = false;
-        boolean mlst = false, mlsd = false, mdtm = false, saveUnparseable = false;
+        boolean storeFile = false;
+        boolean binaryTransfer = false;
+        boolean error = false;
+        boolean listFiles = false;
+        boolean listNames = false;
+        boolean hidden = false;
+        boolean localActive = false;
+        boolean useEpsvWithIPv4 = false;
+        boolean feat = false;
+        boolean printHash = false;
+        boolean mlst = false;
+        boolean mlsd = false;
+        boolean mdtm = false;
+        boolean saveUnparseable = false;
         boolean size = false;
         boolean lenient = false;
         long keepAliveTimeoutSeconds = -1;
@@ -102,19 +142,20 @@ public final class FTPClientExample {
         int minParams = 5; // listings require 3 params
         String protocol = null; // SSL protocol
         String doCommand = null;
-        String trustmgr = null;
+        String trustManager = null;
         String proxyHost = null;
         int proxyPort = 80;
         String proxyUser = null;
         String proxyPassword = null;
         String user = null;
         String password = null;
-        String encoding = null;
+        Charset encoding = null;
         String serverTimeZoneId = null;
         String displayTimeZoneId = null;
         String serverType = null;
         String defaultDateFormat = null;
         String recentDateFormat = null;
+        String opts = null;
 
         int base = 0;
         for (base = 0; base < args.length; base++) {
@@ -136,7 +177,7 @@ public final class FTPClientExample {
             } else if (args[base].equals("-e")) {
                 useEpsvWithIPv4 = true;
             } else if (args[base].equals("-E")) {
-                encoding = args[++base];
+                encoding = Charset.forName(args[++base]);
             } else if (args[base].equals("-f")) {
                 feat = true;
                 minParams = 3;
@@ -155,6 +196,8 @@ public final class FTPClientExample {
                 minParams = 3;
             } else if (args[base].equals("-L")) {
                 lenient = true;
+            } else if (args[base].equals("--OPTS")) {
+                opts = args[++base];
             } else if (args[base].equals("-n")) {
                 listNames = true;
                 minParams = 3;
@@ -170,7 +213,7 @@ public final class FTPClientExample {
             } else if (args[base].equals("-w")) {
                 controlKeepAliveReplyTimeoutMillis = Integer.parseInt(args[++base]);
             } else if (args[base].equals("-T")) {
-                trustmgr = args[++base];
+                trustManager = args[++base];
             } else if (args[base].equals("-y")) {
                 defaultDateFormat = args[++base];
             } else if (args[base].equals("-Y")) {
@@ -201,8 +244,8 @@ public final class FTPClientExample {
         if (user != null) {
             minParams -= 2;
         }
-        if (remain < minParams) // server, user, pass, remote, local [protocol]
-        {
+        if (remain < minParams) {
+            // server, user, pass, remote, local [protocol]
             if (args.length > 0) {
                 System.err.println("Actual Parameters: " + Arrays.toString(args));
             }
@@ -255,8 +298,8 @@ public final class FTPClientExample {
                 }
             }
             ftp = ftps;
-            if (trustmgr != null) {
-                switch (trustmgr) {
+            if (trustManager != null) {
+                switch (trustManager) {
                 case "all":
                     ftps.setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
                     break;
@@ -295,14 +338,7 @@ public final class FTPClientExample {
         } else {
             config = new FTPClientConfig();
         }
-        config.setUnparseableEntries(saveUnparseable);
-        if (defaultDateFormat != null) {
-            config.setDefaultDateFormatStr(defaultDateFormat);
-        }
-        if (recentDateFormat != null) {
-            config.setRecentDateFormatStr(recentDateFormat);
-        }
-        ftp.configure(config);
+        configure(ftp, config, defaultDateFormat, recentDateFormat, saveUnparseable);
 
         try {
             final int reply;
@@ -343,6 +379,12 @@ public final class FTPClientExample {
             }
 
             System.out.println("Remote system is " + ftp.getSystemType());
+            if (!ftp.getSystemType().contains(config.getServerSystemKey())) {
+                configure(ftp, new FTPClientConfig(ftp.getSystemType()), defaultDateFormat, recentDateFormat, saveUnparseable);
+            }
+            if (opts != null) {
+                ftp.opts(opts);
+            }
 
             if (binaryTransfer) {
                 ftp.setFileType(FTP.BINARY_FILE_TYPE);
@@ -370,9 +412,8 @@ public final class FTPClientExample {
                 if (keepAliveTimeoutSeconds > 0) {
                     showCslStats(ftp);
                 }
-            }
-            // Allow multiple list types for single invocation
-            else if (listFiles || mlsd || mdtm || mlst || listNames || size) {
+            } else if (listFiles || mlsd || mdtm || mlst || listNames || size) {
+                // Allow multiple list types for single invocation
                 if (mlsd) {
                     for (final FTPFile f : ftp.mlistDir(remote)) {
                         System.out.println(f.getRawListing());

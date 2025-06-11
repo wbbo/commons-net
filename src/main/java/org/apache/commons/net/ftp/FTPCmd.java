@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *   https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,131 +18,144 @@
 package org.apache.commons.net.ftp;
 
 /**
+ * Enumerates FTP commands.
+ *
  * @since 3.3
  */
 public enum FTPCmd {
 
-    /** FTP command. */
+    /** FTP command ABOR. */
     ABOR,
 
-    /** FTP command. */
+    /** FTP command ACCT. */
     ACCT,
 
-    /** FTP command. */
+    /** FTP command ALLO. */
     ALLO,
 
-    /** FTP command. */
+    /** FTP command APPE. */
     APPE,
 
-    /** FTP command. */
+    /** FTP command CDUP. */
     CDUP,
 
-    /** FTP command. */
+    /** FTP command CWD. */
     CWD,
 
-    /** FTP command. */
+    /** FTP command DELE. */
     DELE,
 
-    /** FTP command. */
+    /** FTP command EPRT. */
     EPRT,
 
-    /** FTP command. */
+    /** FTP command EPSV. */
     EPSV,
 
-    /** FTP command. */
+    /** FTP command <a href="https://datatracker.ietf.org/doc/html/rfc2389#section-3">FEAT</a>. */
     FEAT,
 
-    /** FTP command. */
+    /** FTP command HELP. */
     HELP,
 
-    /** FTP command. */
+    /** FTP command LIST. */
     LIST,
 
-    /** FTP command. */
+    /** FTP command MDTM. */
     MDTM,
 
-    /** FTP command. */
+    /** FTP command MFMT. */
     MFMT,
 
-    /** FTP command. */
+    /** FTP command MKD. */
     MKD,
 
-    /** FTP command. */
+    /** FTP command MLSD. */
     MLSD,
 
-    /** FTP command. */
+    /** FTP command MLST. */
     MLST,
 
-    /** FTP command. */
+    /** FTP command MODE. */
     MODE,
 
-    /** FTP command. */
+    /** FTP command NLST. */
     NLST,
 
-    /** FTP command. */
+    /** FTP command NOOP. */
     NOOP,
 
-    /** FTP command. */
+    /**
+     * FTP command <a href="https://datatracker.ietf.org/doc/html/rfc2389#section-4">OPTS</a>.
+     *
+     * @since 3.12.0
+     */
+    OPTS,
+
+    /** FTP command PASS. */
     PASS,
 
-    /** FTP command. */
+    /** FTP command PASV. */
     PASV,
 
-    /** FTP command. */
+    /** FTP command PORT. */
     PORT,
 
-    /** FTP command. */
+    /** FTP command PWD. */
     PWD,
 
-    /** FTP command. */
+    /** FTP command QUIT. */
     QUIT,
 
-    /** FTP command. */
+    /** FTP command REIN. */
     REIN,
 
-    /** FTP command. */
+    /** FTP command REST. */
     REST,
 
-    /** FTP command. */
+    /** FTP command RETR. */
     RETR,
 
-    /** FTP command. */
+    /** FTP command RMD. */
     RMD,
 
-    /** FTP command. */
+    /** FTP command RNFR. */
     RNFR,
 
-    /** FTP command. */
+    /** FTP command RNTO. */
     RNTO,
 
-    /** FTP command. */
+    /** FTP command SITE. */
     SITE,
 
-    /** @since 3.7 */
+    /**
+     * FTP command SIZE.
+     *
+     * @since 3.7
+     */
     SIZE,
 
-    /** FTP command. */
+    /** FTP command SMNT. */
     SMNT,
 
-    /** FTP command. */
+    /** FTP command STAT. */
     STAT,
 
-    /** FTP command. */
+    /** FTP command STOR. */
     STOR,
 
-    /** FTP command. */
+    /** FTP command STOU. */
     STOU,
 
-    /** FTP command. */
+    /** FTP command STRU. */
     STRU,
 
-    /** FTP command. */
+    /** FTP command SYST. */
     SYST,
 
-    /** FTP command. */
+    /** FTP command TYPE. */
     TYPE,
 
-    /** FTP command. */
+    /** FTP command USER. */
     USER;
 
     // Aliases

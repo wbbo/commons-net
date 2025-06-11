@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,7 @@ public class MacOsPeterFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
             + "(" + "(folder\\s+)" + "|" + "((\\d+)\\s+(\\d+)\\s+)" // resource size & data size
             + ")" + "(\\d+)\\s+" // size
             /*
-             * numeric or standard format date: yyyy-mm-dd (expecting hh:mm to follow) MMM [d]d [d]d MMM N.B. use non-space for MMM to allow for languages such
+             * numeric or standard format date: yyyy-mm-dd (expecting hh:mm to follow) MMM [d]d [d]d MMM Use non-space for MMM to allow for languages such
              * as German which use diacritics (e.g. umlaut) in some abbreviations.
              */
             + "((?:\\d+[-/]\\d+[-/]\\d+)|(?:\\S{3}\\s+\\d{1,2})|(?:\\d{1,2}\\s+\\S{3}))\\s+"
@@ -82,7 +82,7 @@ public class MacOsPeterFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
     }
 
     /**
-     * Defines a default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
+     * Gets a new default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
      *
      * @return the default configuration for this parser.
      */
@@ -92,7 +92,7 @@ public class MacOsPeterFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
     }
 
     /**
-     * Parses a line of a unix (standard) FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the
+     * Parses a line of a Unix (standard) FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the
      * file listing line doesn't describe a file, {@code null} is returned, otherwise a {@code FTPFile} instance representing the files in the
      * directory is returned.
      *
@@ -109,7 +109,7 @@ public class MacOsPeterFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
         if (matches(entry)) {
             final String typeStr = group(1);
             final String hardLinkCount = "0";
-            final String filesize = group(20);
+            final String fileSize = group(20);
             final String datestr = group(21) + " " + group(22);
             String name = group(23);
             final String endtoken = group(24);
@@ -171,7 +171,7 @@ public class MacOsPeterFTPEntryParser extends ConfigurableFTPFileEntryParserImpl
             file.setGroup(null);
 
             try {
-                file.setSize(Long.parseLong(filesize));
+                file.setSize(Long.parseLong(fileSize));
             } catch (final NumberFormatException e) {
                 // intentionally do nothing
             }

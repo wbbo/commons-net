@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -104,7 +104,7 @@ public class UnixFTPEntryParserTest extends AbstractFTPParseTest {
         case 'b':
         case 'c':
             assertEquals(0, f.getHardLinkCount());
-            //$FALL-THROUGH$ TODO this needs to be fixed if a device type is introduced
+            // falls through$ TODO this needs to be fixed if a device type is introduced
         case 'f':
         case '-':
             assertEquals("Type of " + test, type, FTPFile.FILE_TYPE);

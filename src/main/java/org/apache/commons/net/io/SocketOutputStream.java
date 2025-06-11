@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,10 +27,8 @@ import java.net.Socket;
  * afterward. This class is useful for situations where you are dealing with a stream originating from a socket, but do not have a reference to the socket, and
  * want to make sure it closes when the stream closes.
  *
- *
  * @see SocketInputStream
  */
-
 public class SocketOutputStream extends FilterOutputStream {
     private final Socket socket;
 

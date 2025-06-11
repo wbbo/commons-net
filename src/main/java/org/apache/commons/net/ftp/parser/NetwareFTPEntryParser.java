@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,7 +77,7 @@ public class NetwareFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * Defines a default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
+     * Gets a new default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
      *
      * @return the default configuration for this parser.
      */
@@ -93,14 +93,14 @@ public class NetwareFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * <p>
      * Netware file permissions are in the following format: RWCEAFMS, and are explained as follows:
      * <ul>
-     * <li><b>S</b> - Supervisor; All rights.
-     * <li><b>R</b> - Read; Right to open and read or execute.
-     * <li><b>W</b> - Write; Right to open and modify.
-     * <li><b>C</b> - Create; Right to create; when assigned to a file, allows a deleted file to be recovered.
-     * <li><b>E</b> - Erase; Right to delete.
-     * <li><b>M</b> - Modify; Right to rename a file and to change attributes.
-     * <li><b>F</b> - File Scan; Right to see directory or file listings.
-     * <li><b>A</b> - Access Control; Right to modify trustee assignments and the Inherited Rights Mask.
+     * <li><strong>S</strong> - Supervisor; All rights.
+     * <li><strong>R</strong> - Read; Right to open and read or execute.
+     * <li><strong>W</strong> - Write; Right to open and modify.
+     * <li><strong>C</strong> - Create; Right to create; when assigned to a file, allows a deleted file to be recovered.
+     * <li><strong>E</strong> - Erase; Right to delete.
+     * <li><strong>M</strong> - Modify; Right to rename a file and to change attributes.
+     * <li><strong>F</strong> - File Scan; Right to see directory or file listings.
+     * <li><strong>A</strong> - Access Control; Right to modify trustee assignments and the Inherited Rights Mask.
      * </ul>
      *
      * See <a href="http://www.novell.com/documentation/nfap10/index.html?page=/documentation/nfap10/nfaubook/data/abxraws.html"> here</a> for more details
@@ -129,8 +129,8 @@ public class NetwareFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             // is it a DIR or a file
             if (dirString.trim().equals("d")) {
                 f.setType(FTPFile.DIRECTORY_TYPE);
-            } else // Should be "-"
-            {
+            } else {
+                // Should be "-"
                 f.setType(FTPFile.FILE_TYPE);
             }
 

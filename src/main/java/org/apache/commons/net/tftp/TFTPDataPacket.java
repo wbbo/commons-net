@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ import java.net.InetAddress;
  * worry about the internals. Additionally, only very few people should have to care about any of the TFTPPacket classes or derived classes. Almost all users
  * should only be concerned with the {@link org.apache.commons.net.tftp.TFTPClient} class {@link org.apache.commons.net.tftp.TFTPClient#receiveFile
  * receiveFile()} and {@link org.apache.commons.net.tftp.TFTPClient#sendFile sendFile()} methods.
- *
+ * </p>
  *
  * @see TFTPPacket
  * @see TFTPPacketException
@@ -72,20 +72,24 @@ public final class TFTPDataPacket extends TFTPPacket {
         this.blockNumber = (this.data[2] & 0xff) << 8 | this.data[3] & 0xff;
 
         this.length = datagram.getLength() - 4;
-
-        if (this.length > MAX_DATA_LENGTH) {
-            this.length = MAX_DATA_LENGTH;
-        }
     }
 
+    /**
+     * Creates a data packet to be sent to a host at a given port with a given block number. The actual data to be sent is passed as an array, an offset, and a
+     * length. The offset is the offset into the byte array where the data starts. The length is the length of the data.
+     *
+     * @param destination The host to which the packet is going to be sent.
+     * @param port        The port to which the packet is going to be sent.
+     * @param blockNumber The block number of the data.
+     * @param data        The byte array containing the data.
+     */
     public TFTPDataPacket(final InetAddress destination, final int port, final int blockNumber, final byte[] data) {
         this(destination, port, blockNumber, data, 0, data.length);
     }
 
     /**
      * Creates a data packet to be sent to a host at a given port with a given block number. The actual data to be sent is passed as an array, an offset, and a
-     * length. The offset is the offset into the byte array where the data starts. The length is the length of the data. If the length is greater than
-     * MAX_DATA_LENGTH, it is truncated.
+     * length. The offset is the offset into the byte array where the data starts. The length is the length of the data.
      *
      * @param destination The host to which the packet is going to be sent.
      * @param port        The port to which the packet is going to be sent.
@@ -99,11 +103,11 @@ public final class TFTPDataPacket extends TFTPPacket {
         this.blockNumber = blockNumber;
         this.data = data;
         this.offset = offset;
-        this.length = Math.min(length, MAX_DATA_LENGTH);
+        this.length = length;
     }
 
     /**
-     * Returns the block number of the data packet.
+     * Gets the block number of the data packet.
      *
      * @return The block number of the data packet.
      */
@@ -112,7 +116,7 @@ public final class TFTPDataPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the byte array containing the packet data.
+     * Gets the byte array containing the packet data.
      *
      * @return The byte array containing the packet data.
      */
@@ -121,7 +125,7 @@ public final class TFTPDataPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the length of the data part of the data packet.
+     * Gets the length of the data part of the data packet.
      *
      * @return The length of the data part of the data packet.
      */
@@ -130,7 +134,7 @@ public final class TFTPDataPacket extends TFTPPacket {
     }
 
     /**
-     * Returns the offset into the byte array where the packet data actually starts.
+     * Gets the offset into the byte array where the packet data actually starts.
      *
      * @return The offset into the byte array where the packet data actually starts.
      */
@@ -208,8 +212,6 @@ public final class TFTPDataPacket extends TFTPPacket {
         this.data = data;
         this.offset = offset;
         this.length = length;
-
-        this.length = Math.min(length, MAX_DATA_LENGTH);
     }
 
     /**

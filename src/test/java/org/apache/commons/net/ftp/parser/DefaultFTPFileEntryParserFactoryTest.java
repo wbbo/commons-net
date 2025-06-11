@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,10 +19,10 @@ package org.apache.commons.net.ftp.parser;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFileEntryParser;
+
+import junit.framework.TestCase;
 
 public class DefaultFTPFileEntryParserFactoryTest extends TestCase {
     private void checkParserClass(final FTPFileEntryParserFactory fact, final String key, final Class<?> expected) {
@@ -80,7 +80,7 @@ public class DefaultFTPFileEntryParserFactoryTest extends TestCase {
         parser = factory.createFileEntryParser("AS/400");
         assertInstanceOf(CompositeFileEntryParser.class, parser);
 
-        // Added test to make sure it handles the UNIX systems that were
+        // Added test to make sure it handles the Unix systems that were
         // compiled with OS as "UNKNOWN". This test validates that the
         // check is case-insensitive.
         parser = factory.createFileEntryParser("UNKNOWN Type: L8");

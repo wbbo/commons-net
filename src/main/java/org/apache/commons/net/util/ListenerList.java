@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,21 +25,38 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * A list of event listeners.
  */
 public class ListenerList implements Serializable, Iterable<EventListener> {
 
     private static final long serialVersionUID = -1934227607974228213L;
 
+    /**
+     * The thread-safe list of listeners.
+     */
     private final CopyOnWriteArrayList<EventListener> listeners;
 
+    /**
+     * Constructs a new instance.
+     */
     public ListenerList() {
         listeners = new CopyOnWriteArrayList<>();
     }
 
+    /**
+     * Adds the given listener to the end of this list.
+     *
+     * @param listener A listener.
+     */
     public void addListener(final EventListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Gets the number of elements in this list.
+     *
+     * @return the number of elements in this list
+     */
     public int getListenerCount() {
         return listeners.size();
     }
@@ -55,12 +72,19 @@ public class ListenerList implements Serializable, Iterable<EventListener> {
         return listeners.iterator();
     }
 
+    /**
+     * Throws UnsupportedOperationException.
+     *
+     * @param ignored Ignore.
+     */
     private void readObject(final ObjectInputStream ignored) {
         throw new UnsupportedOperationException("Serialization is not supported");
     }
 
     /**
-     * Serialization is unnecessary for this class. Reject attempts to do so until such time as the Serializable attribute can be dropped.
+     * Removes the first occurrence of the specified listener from this list, if it is present.
+     *
+     * @param listener listener to be removed from this list, if present.
      */
     public void removeListener(final EventListener listener) {
         listeners.remove(listener);

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,9 +29,7 @@ import org.apache.commons.net.ftp.FTPFileEntryParser;
  *
  * @see FTPFileEntryParser Usage instructions.
  */
-public class OS2FTPEntryParser extends ConfigurableFTPFileEntryParserImpl
-
-{
+public class OS2FTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
 
     private static final String DEFAULT_DATE_FORMAT = "MM-dd-yy HH:mm"; // 11-09-01 12:30
     /**
@@ -41,7 +39,7 @@ public class OS2FTPEntryParser extends ConfigurableFTPFileEntryParserImpl
             + "(\\S.*)";
 
     /**
-     * The default constructor for a OS2FTPEntryParser object.
+     * Constructs a new instance.
      *
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen under normal conditions. If it is seen, this is a
      *                                  sign that {@code REGEX} is not a valid regular expression.
@@ -51,7 +49,7 @@ public class OS2FTPEntryParser extends ConfigurableFTPFileEntryParserImpl
     }
 
     /**
-     * This constructor allows the creation of an OS2FTPEntryParser object with something other than the default configuration.
+     * Constructs a new instance with something other than the default configuration.
      *
      * @param config The {@link FTPClientConfig configuration} object used to configure this parser.
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen under normal conditions. If it is seen, this is a
@@ -64,7 +62,7 @@ public class OS2FTPEntryParser extends ConfigurableFTPFileEntryParserImpl
     }
 
     /**
-     * Defines a default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
+     * Gets a new default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
      *
      * @return the default configuration for this parser.
      */

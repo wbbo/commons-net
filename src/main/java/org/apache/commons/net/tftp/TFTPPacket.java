@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ import java.net.InetAddress;
  * worry about the internals. Additionally, only very few people should have to care about any of the TFTPPacket classes or derived classes. Almost all users
  * should only be concerned with the {@link org.apache.commons.net.tftp.TFTPClient} class {@link org.apache.commons.net.tftp.TFTPClient#receiveFile
  * receiveFile()} and {@link org.apache.commons.net.tftp.TFTPClient#sendFile sendFile()} methods.
- *
+ * </p>
  *
  * @see TFTPPacketException
  * @see TFTP
@@ -67,6 +67,13 @@ public abstract class TFTPPacket {
     public static final int ERROR = 5;
 
     /**
+     * TFTP spec identifier {@value}. Identifier returned by {@link #getType getType()} indicating an options acknowledgement packet.
+     *
+     * @since 3.12.0
+     */
+    public static final int OACK = 6;
+
+    /**
      * The TFTP data packet maximum segment size in bytes. This is 512 and is useful for those familiar with the TFTP protocol who want to use the
      * {@link org.apache.commons.net.tftp.TFTP} class methods to implement their own TFTP servers or clients.
      */
@@ -81,15 +88,11 @@ public abstract class TFTPPacket {
      * @throws TFTPPacketException If the datagram does not contain a valid TFTP packet.
      */
     public static final TFTPPacket newTFTPPacket(final DatagramPacket datagram) throws TFTPPacketException {
-        final byte[] data;
-        TFTPPacket packet;
-
         if (datagram.getLength() < MIN_PACKET_SIZE) {
             throw new TFTPPacketException("Bad packet. Datagram data length is too short.");
         }
-
-        data = datagram.getData();
-
+        final byte[] data = datagram.getData();
+        final TFTPPacket packet;
         switch (data[1]) {
         case READ_REQUEST:
             packet = new TFTPReadRequestPacket(datagram);
@@ -109,7 +112,6 @@ public abstract class TFTPPacket {
         default:
             throw new TFTPPacketException("Bad packet.  Invalid TFTP operator code.");
         }
-
         return packet;
     }
 
@@ -136,7 +138,7 @@ public abstract class TFTPPacket {
     }
 
     /**
-     * Returns the address of the host where the packet is going to be sent or where it came from.
+     * Gets the address of the host where the packet is going to be sent or where it came from.
      *
      * @return The type of the packet.
      */
@@ -145,7 +147,7 @@ public abstract class TFTPPacket {
     }
 
     /**
-     * Returns the port where the packet is going to be sent or where it came from.
+     * Gets the port where the packet is going to be sent or where it came from.
      *
      * @return The port where the packet came from or where it is going.
      */
@@ -154,7 +156,7 @@ public abstract class TFTPPacket {
     }
 
     /**
-     * Returns the type of the packet.
+     * Gets the type of the packet.
      *
      * @return The type of the packet.
      */

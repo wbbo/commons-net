@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -95,7 +95,6 @@ public class FTPHTTPClient extends FTPClient {
         this.proxyPort = proxyPort;
         this.proxyUserName = proxyUser;
         this.proxyPassword = proxyPass;
-        this.tunnelHost = null;
         this.charset = encoding;
     }
 
@@ -127,7 +126,7 @@ public class FTPHTTPClient extends FTPClient {
         }
 
         final boolean isInet6Address = getRemoteAddress() instanceof Inet6Address;
-        String passiveHost;
+        final String passiveHost;
 
         final boolean attemptEPSV = isUseEPSVwithIPv4() || isInet6Address;
         if (attemptEPSV && epsv() == FTPReply.ENTERING_EPSV_MODE) {
@@ -172,9 +171,7 @@ public class FTPHTTPClient extends FTPClient {
         try {
             socketIsReader = tunnelHandshake(host, port, _input_, _output_);
         } catch (final Exception e) {
-            final IOException ioe = new IOException("Could not connect to " + host + " using port " + port);
-            ioe.initCause(e);
-            throw ioe;
+            throw new IOException("Could not connect to " + host + " using port " + port, e);
         }
         super._connectAction_(socketIsReader);
     }
@@ -210,7 +207,7 @@ public class FTPHTTPClient extends FTPClient {
             throw new IOException("No response from proxy");
         }
 
-        String code;
+        final String code;
         final String resp = response.get(0);
         if (!resp.startsWith("HTTP/") || resp.length() < 12) {
             throw new IOException("Invalid response from proxy: " + resp);
@@ -218,7 +215,7 @@ public class FTPHTTPClient extends FTPClient {
         code = resp.substring(9, 12);
 
         if (!"200".equals(code)) {
-            final StringBuilder msg = new StringBuilder();
+            final StringBuilder msg = new StringBuilder(256);
             msg.append("HTTPTunnelConnector: connection failed\r\n");
             msg.append("Response received from the proxy:\r\n");
             for (final String line : response) {

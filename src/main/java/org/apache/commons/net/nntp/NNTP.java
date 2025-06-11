@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,13 +38,13 @@ import org.apache.commons.net.io.CRLFLineReader;
  * <p>
  * You should keep in mind that the NNTP server may choose to prematurely close a connection if the client has been idle for longer than a given time period or
  * if the server is being shutdown by the operator or some other reason. The NNTP class will detect a premature NNTP server connection closing when it receives
- * a {@link org.apache.commons.net.nntp.NNTPReply#SERVICE_DISCONTINUED NNTPReply.SERVICE_DISCONTINUED } response to a command. When that occurs, the NNTP class
+ * a {@link org.apache.commons.net.nntp.NNTPReply#SERVICE_DISCONTINUED NNTPReply.SERVICE_DISCONTINUED} response to a command. When that occurs, the NNTP class
  * method encountering that reply will throw an {@link org.apache.commons.net.nntp.NNTPConnectionClosedException} . {@code NNTPConectionClosedException} is
  * a subclass of {@code IOException} and therefore need not be caught separately, but if you are going to catch it separately, its catch block must
  * appear before the more general {@code IOException} catch block. When you encounter an
- * {@link org.apache.commons.net.nntp.NNTPConnectionClosedException} , you must disconnect the connection with {@link #disconnect disconnect() } to properly
- * clean up the system resources used by NNTP. Before disconnecting, you may check the last reply code and text with {@link #getReplyCode getReplyCode } and
- * {@link #getReplyString getReplyString }.
+ * {@link org.apache.commons.net.nntp.NNTPConnectionClosedException} , you must disconnect the connection with {@link #disconnect disconnect()} to properly
+ * clean up the system resources used by NNTP. Before disconnecting, you may check the last reply code and text with {@link #getReplyCode getReplyCode} and
+ * {@link #getReplyString getReplyString}.
  * </p>
  * <p>
  * Rather than list it separately for each method, we mention here that every method communicating with the server and throwing an IOException can also throw a
@@ -266,7 +266,7 @@ public class NNTP extends SocketClient {
     }
 
     /**
-     * Provide command support to super-class
+     * Gets the command support.
      */
     @Override
     protected ProtocolCommandSupport getCommandSupport() {
@@ -274,8 +274,8 @@ public class NNTP extends SocketClient {
     }
 
     /**
-     * Fetches a reply from the NNTP server and returns the integer reply code. After calling this method, the actual reply text can be accessed from
-     * {@link #getReplyString getReplyString }. Only use this method if you are implementing your own NNTP client or if you need to fetch a secondary response
+     * Gets a reply from the NNTP server and returns the integer reply code. After calling this method, the actual reply text can be accessed from
+     * {@link #getReplyString getReplyString}. Only use this method if you are implementing your own NNTP client or if you need to fetch a secondary response
      * from the NNTP server.
      *
      * @return The integer value of the reply code of the fetched NNTP reply. in response to the command.
@@ -312,7 +312,7 @@ public class NNTP extends SocketClient {
     }
 
     /**
-     * Returns the integer value of the reply code of the last NNTP reply. You will usually only use this method after you connect to the NNTP server to check
+     * Gets the integer value of the reply code of the last NNTP reply. You will usually only use this method after you connect to the NNTP server to check
      * that the connection was successful since {@code connect} is of type void.
      *
      * @return The integer value of the reply code of the last NNTP reply.
@@ -322,7 +322,7 @@ public class NNTP extends SocketClient {
     }
 
     /**
-     * Returns the entire text of the last NNTP server response exactly as it was received, not including the end of line marker.
+     * Gets the entire text of the last NNTP server response exactly as it was received, not including the end of line marker.
      *
      * @return The entire text from the last NNTP response as a String.
      */
@@ -583,7 +583,7 @@ public class NNTP extends SocketClient {
 
     /**
      * Sends an NNTP command with no arguments to the server, waits for a reply and returns the numerical response code. After invocation, for more detailed
-     * information, the actual reply text can be accessed by calling {@link #getReplyString getReplyString }.
+     * information, the actual reply text can be accessed by calling {@link #getReplyString getReplyString}.
      *
      * @param command The NNTPCommand constant corresponding to the NNTP command to send.
      * @return The integer value of the NNTP reply code returned by the server in response to the command. in response to the command.
@@ -598,7 +598,7 @@ public class NNTP extends SocketClient {
 
     /**
      * Sends an NNTP command to the server, waits for a reply and returns the numerical response code. After invocation, for more detailed information, the
-     * actual reply text can be accessed by calling {@link #getReplyString getReplyString }.
+     * actual reply text can be accessed by calling {@link #getReplyString getReplyString}.
      *
      * @param command The NNTPCommand constant corresponding to the NNTP command to send.
      * @param args    The arguments to the NNTP command. If this parameter is set to null, then the command is sent with no argument.
@@ -614,7 +614,7 @@ public class NNTP extends SocketClient {
 
     /**
      * Sends an NNTP command with no arguments to the server, waits for a reply and returns the numerical response code. After invocation, for more detailed
-     * information, the actual reply text can be accessed by calling {@link #getReplyString getReplyString }.
+     * information, the actual reply text can be accessed by calling {@link #getReplyString getReplyString}.
      *
      * @param command The text representation of the NNTP command to send.
      * @return The integer value of the NNTP reply code returned by the server in response to the command. in response to the command.
@@ -629,7 +629,7 @@ public class NNTP extends SocketClient {
 
     /**
      * Sends an NNTP command to the server, waits for a reply and returns the numerical response code. After invocation, for more detailed information, the
-     * actual reply text can be accessed by calling {@link #getReplyString getReplyString }.
+     * actual reply text can be accessed by calling {@link #getReplyString getReplyString}.
      *
      * @param command The text representation of the NNTP command to send.
      * @param args    The arguments to the NNTP command. If this parameter is set to null, then the command is sent with no argument.
@@ -640,21 +640,16 @@ public class NNTP extends SocketClient {
      * @throws IOException                   If an I/O error occurs while either sending the command or receiving the server reply.
      */
     public int sendCommand(final String command, final String args) throws IOException {
-        final StringBuilder __commandBuffer = new StringBuilder();
-        __commandBuffer.append(command);
-
+        final StringBuilder builder = new StringBuilder(command);
         if (args != null) {
-            __commandBuffer.append(' ');
-            __commandBuffer.append(args);
+            builder.append(' ');
+            builder.append(args);
         }
-        __commandBuffer.append(NETASCII_EOL);
-
+        builder.append(NETASCII_EOL);
         final String message;
-        _writer_.write(message = __commandBuffer.toString());
+        _writer_.write(message = builder.toString());
         _writer_.flush();
-
         fireCommandSent(command, message);
-
         return getReply();
     }
 

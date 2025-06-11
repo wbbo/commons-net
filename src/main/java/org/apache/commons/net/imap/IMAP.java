@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,6 +49,9 @@ public class IMAP extends SocketClient {
         boolean chunkReceived(IMAP imap);
     }
 
+    /**
+     * Enumerates IMAP states.
+     */
     public enum IMAPState {
         /** A constant representing the state where the client is not yet connected to a server. */
         DISCONNECTED_STATE,
@@ -114,8 +117,15 @@ public class IMAP extends SocketClient {
     }
 
     private IMAPState state;
+
+    /**
+     * Buffered writer.
+     */
     protected BufferedWriter __writer;
 
+    /**
+     * Buffered reader.
+     */
     protected BufferedReader _reader;
 
     private int replyCode;
@@ -292,7 +302,7 @@ public class IMAP extends SocketClient {
     }
 
     /**
-     * Returns the reply to the last command sent to the server. The value is a single string containing all the reply lines including newlines.
+     * Gets the reply to the last command sent to the server. The value is a single string containing all the reply lines including newlines.
      *
      * @return The last server response.
      */
@@ -307,7 +317,7 @@ public class IMAP extends SocketClient {
     }
 
     /**
-     * Returns an array of lines received as a reply to the last command sent to the server. The lines have end of lines truncated.
+     * Gets an array of lines received as a reply to the last command sent to the server. The lines have end of lines truncated.
      *
      * @return The last server response.
      */
@@ -316,7 +326,7 @@ public class IMAP extends SocketClient {
     }
 
     /**
-     * Returns the current IMAP client state.
+     * Gets the current IMAP client state.
      *
      * @return The current IMAP client state.
      */
@@ -379,25 +389,21 @@ public class IMAP extends SocketClient {
      * @return The server reply code (either {@link IMAPReply#OK}, {@link IMAPReply#NO} or {@link IMAPReply#BAD}).
      */
     private int sendCommandWithID(final String commandID, final String command, final String args) throws IOException {
-        final StringBuilder __commandBuffer = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         if (commandID != null) {
-            __commandBuffer.append(commandID);
-            __commandBuffer.append(' ');
+            builder.append(commandID);
+            builder.append(' ');
         }
-        __commandBuffer.append(command);
-
+        builder.append(command);
         if (args != null) {
-            __commandBuffer.append(' ');
-            __commandBuffer.append(args);
+            builder.append(' ');
+            builder.append(args);
         }
-        __commandBuffer.append(NETASCII_EOL);
-
-        final String message = __commandBuffer.toString();
+        builder.append(NETASCII_EOL);
+        final String message = builder.toString();
         __writer.write(message);
         __writer.flush();
-
         fireCommandSent(command, message);
-
         getReply();
         return replyCode;
     }

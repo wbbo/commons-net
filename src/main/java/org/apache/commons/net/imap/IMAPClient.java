@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -191,6 +191,13 @@ public class IMAPClient extends IMAP {
     // commands available in the not-authenticated state
     // STARTTLS skipped - see IMAPSClient.
     // AUTHENTICATE skipped - see AuthenticatingIMAPClient.
+
+    /**
+     * Constructs a new instance.
+     */
+    public IMAPClient() {
+        // empty
+    }
 
     /**
      * Send an APPEND command to the server.
@@ -384,7 +391,7 @@ public class IMAPClient extends IMAP {
 
     /**
      * Login to the IMAP server with the given user and password. You must first connect to the server with
-     * {@link org.apache.commons.net.SocketClient#connect connect } before attempting to log in. A login attempt is only valid if the client is in the
+     * {@link org.apache.commons.net.SocketClient#connect connect} before attempting to log in. A login attempt is only valid if the client is in the
      * NOT_AUTH_STATE. After logging in, the client enters the AUTH_STATE.
      *
      * @param user The account name being logged in to.

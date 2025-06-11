@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,9 @@ import java.nio.charset.Charset;
  * Helps to deal with Charsets.
  *
  * @since 3.3
+ * @deprecated Use {@link org.apache.commons.io.Charsets}.
  */
+@Deprecated
 public class Charsets {
 
     /**
@@ -41,7 +43,6 @@ public class Charsets {
      *
      * @param charsetName        The name of the requested charset; may be a canonical name, an alias, or null. If null, return the default charset.
      * @param defaultCharsetName the charset name to use if the requested charset is null
-     *
      * @return A charset object for the named charset
      */
     public static Charset toCharset(final String charsetName, final String defaultCharsetName) {

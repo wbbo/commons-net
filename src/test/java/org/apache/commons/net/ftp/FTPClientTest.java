@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *   https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.net.ftp.parser.UnixFTPEntryParser;
+
+import junit.framework.TestCase;
 
 public class FTPClientTest extends TestCase {
 
@@ -37,12 +37,13 @@ public class FTPClientTest extends TestCase {
             return systemType;
         }
 
-        public void setSystemType(final String type) {
-            systemType = type;
+        public void setSystemType(final String systemType) {
+            this.systemType = systemType;
         }
     }
 
     private static final class PassiveNatWorkAroundLocalClient extends FTPClient {
+
         private final String passiveModeServerIP;
 
         public PassiveNatWorkAroundLocalClient(final String passiveModeServerIP) {
@@ -57,7 +58,6 @@ public class FTPClientTest extends TestCase {
                 throw new IllegalStateException(e);
             }
         }
-
     }
 
     private static final String[] TESTS = { "257 /path/without/quotes", "/path/without/quotes",
@@ -126,6 +126,16 @@ public class FTPClientTest extends TestCase {
     public void testGetPassivePort() {
         final FTPClient client = new PassiveNatWorkAroundLocalClient("8.8.8.8");
         assertEquals(-1, client.getPassivePort());
+    }
+
+    public void testLoadResourceProperties() {
+        assertNull(FTPClient.loadResourceProperties(null));
+        assertNull(FTPClient.loadResourceProperties("this/does/not/exist.properties"));
+        assertNull(FTPClient.loadResourceProperties("/this/does/not/exist.properties"));
+        assertNull(FTPClient.loadResourceProperties(FTPClient.SYSTEM_TYPE_PROPERTIES));
+        assertNotNull(FTPClient.loadResourceProperties(""));
+        assertNotNull(FTPClient.loadResourceProperties("/org/apache/commons/net/examples/examples.properties"));
+        assertNotNull(FTPClient.loadResourceProperties("/org/apache/commons/net/test.properties"));
     }
 
     public void testParseClient() {

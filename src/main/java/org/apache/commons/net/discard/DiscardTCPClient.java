@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,8 +23,8 @@ import org.apache.commons.net.SocketClient;
 
 /**
  * The DiscardTCPClient class is a TCP implementation of a client for the Discard protocol described in RFC 863. To use the class, merely establish a connection
- * with {@link org.apache.commons.net.SocketClient#connect connect } and call {@link #getOutputStream getOutputStream() } to retrieve the discard output stream.
- * Don't close the output stream when you're done writing to it. Rather, call {@link org.apache.commons.net.SocketClient#disconnect disconnect } to clean up
+ * with {@link org.apache.commons.net.SocketClient#connect connect} and call {@link #getOutputStream getOutputStream()} to retrieve the discard output stream.
+ * Don't close the output stream when you're done writing to it. Rather, call {@link org.apache.commons.net.SocketClient#disconnect disconnect} to clean up
  * properly.
  *
  * @see DiscardUDPClient
@@ -43,7 +43,7 @@ public class DiscardTCPClient extends SocketClient {
 
     /**
      * Gets an OutputStream through which you may write data to the server. You should NOT close the OutputStream when you're finished reading from it.
-     * Rather, you should call {@link org.apache.commons.net.SocketClient#disconnect disconnect } to clean up properly.
+     * Rather, you should call {@link org.apache.commons.net.SocketClient#disconnect disconnect} to clean up properly.
      *
      * @return An OutputStream through which you can write data to the server.
      */

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,10 +19,10 @@ package org.apache.commons.net.ftp.parser;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
+
+import junit.framework.TestCase;
 
 /**
  * This is a simple TestCase that tests entry parsing using the new FTPClientConfig mechanism. The normal FTPClient cannot handle the different date formats in

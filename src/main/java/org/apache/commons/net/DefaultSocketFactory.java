@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,13 +36,12 @@ import javax.net.SocketFactory;
  * @see SocketClient
  * @see SocketClient#setSocketFactory
  */
-
 public class DefaultSocketFactory extends SocketFactory {
     /** The proxy to use when creating new sockets. */
     private final Proxy connProxy;
 
     /**
-     * The default constructor.
+     * Constructs a new instance.
      */
     public DefaultSocketFactory() {
         this(null);

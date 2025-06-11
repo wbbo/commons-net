@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,10 +26,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.tftp.TFTPServer.ServerMode;
+
+import junit.framework.TestCase;
 
 /**
  * Test the TFTP Server and TFTP Client by creating some FILES in the system temp folder and then uploading and downloading them.
@@ -41,7 +41,7 @@ public class TFTPTest extends TestCase {
     private static final String FILE_PREFIX = "tftp-";
     private static final File[] FILES = new File[8];
 
-    static int testsLeftToRun = 9; // TODO Nasty hack.
+    static int testsLeftToRun = 10; // TODO Nasty hack.
 
     // only want to do this once...
     static {
@@ -182,6 +182,14 @@ public class TFTPTest extends TestCase {
         // test with the smaller FILES
         for (int i = 0; i < 6; i++) {
             testUpload(TFTP.BINARY_MODE, FILES[i]);
+        }
+    }
+
+    public void testResizeBuffer() {
+        try (TFTPClient tftp = new TFTPClient()) {
+            final int bufferSize = 1024;
+            tftp.resetBuffersToSize(bufferSize);
+            assertEquals("Packet size should be 1028", bufferSize + 4, tftp.getPacketSize());
         }
     }
 

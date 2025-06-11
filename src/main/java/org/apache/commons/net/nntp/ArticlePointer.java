@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,6 @@ package org.apache.commons.net.nntp;
  * information when issuing a STAT command, implemented by {@link NNTPClient#selectArticle selectArticle}.
  *
  * @see NNTPClient
- *
  * @deprecated 3.0 use {@link ArticleInfo} instead
  */
 @Deprecated
@@ -34,4 +33,12 @@ public final class ArticlePointer {
      * by all NNTP commands taking an article id as an argument.
      */
     public String articleId;
+
+    /**
+     * Constructs a new instance.
+     */
+    public ArticlePointer() {
+        // empty
+    }
+
 }

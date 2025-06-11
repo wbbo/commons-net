@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * The TimetSimpleServer class is a simple TCP implementation of a server for the Time Protocol described in RFC 868.
@@ -90,13 +92,7 @@ public class TimeTestSimpleServer implements Runnable {
             } catch (final IOException e) {
                 // ignored
             } finally {
-                if (socket != null) {
-                    try {
-                        socket.close(); // force closing of the socket
-                    } catch (final IOException e) {
-                        System.err.println("close socket error: " + e);
-                    }
-                }
+                IOUtils.closeQuietly(socket, e -> System.err.println("close socket error: " + e));
             }
         }
     }
@@ -120,11 +116,7 @@ public class TimeTestSimpleServer implements Runnable {
     public void stop() {
         running = false;
         if (server != null) {
-            try {
-                server.close(); // force closing of the socket
-            } catch (final IOException e) {
-                System.err.println("close socket error: " + e);
-            }
+            IOUtils.closeQuietly(server, e -> System.err.println("close socket error: " + e));
             server = null;
         }
     }

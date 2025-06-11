@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *   https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@ package org.apache.commons.net.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
@@ -34,8 +35,6 @@ import java.util.Enumeration;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.X509ExtendedKeyManager;
 
-import org.apache.commons.net.io.Util;
-
 /**
  * General KeyManager utilities
  * <p>
@@ -49,9 +48,12 @@ import org.apache.commons.net.io.Util;
  * cl.setKeyManager(km);
  * cl.connect(...);
  * </pre>
- *
- * If using the default store type and the key password is the same as the store password, these parameters can be omitted. <br>
+ * <p>
+ * If using the default store type and the key password is the same as the store password, these parameters can be omitted.
+ * </p>
+ * <p>
  * If the desired key is the first or only key in the keystore, the keyAlias parameter can be omitted, in which case the code becomes:
+ * </p>
  *
  * <pre>
  * KeyManager km = KeyManagerUtils.createClientKeyManager(
@@ -120,7 +122,7 @@ public final class KeyManagerUtils {
 
         @Override
         public String[] getClientAliases(final String keyType, final Principal[] issuers) {
-            return new String[] { keyStore.getAlias() };
+            return new String[] { keyStore.getAlias()};
         }
 
         // Call sequence: 3
@@ -144,7 +146,7 @@ public final class KeyManagerUtils {
      *
      * @param storePath the path to the keyStore
      * @param storePass the keyStore password
-     * @return the customised KeyManager
+     * @return the customized KeyManager
      * @throws IOException              if there is a problem creating the keystore
      * @throws GeneralSecurityException if there is a problem creating the keystore
      */
@@ -159,7 +161,7 @@ public final class KeyManagerUtils {
      * @param storePath the path to the keyStore
      * @param storePass the keyStore password
      * @param keyAlias  the alias of the key to use, may be {@code null} in which case the first key entry alias is used
-     * @return the customised KeyManager
+     * @return the customized KeyManager
      * @throws IOException              if there is a problem creating the keystore
      * @throws GeneralSecurityException if there is a problem creating the keystore
      */
@@ -174,7 +176,7 @@ public final class KeyManagerUtils {
      * @param ks       the keystore to use
      * @param keyAlias the alias of the key to use, may be {@code null} in which case the first key entry alias is used
      * @param keyPass  the password of the key to use
-     * @return the customised KeyManager
+     * @return the customized KeyManager
      * @throws GeneralSecurityException if there is a problem creating the keystore
      */
     public static KeyManager createClientKeyManager(final KeyStore ks, final String keyAlias, final String keyPass) throws GeneralSecurityException {
@@ -190,14 +192,13 @@ public final class KeyManagerUtils {
      * @param storePass the keyStore password
      * @param keyAlias  the alias of the key to use, may be {@code null} in which case the first key entry alias is used
      * @param keyPass   the password of the key to use
-     * @return the customised KeyManager
+     * @return the customized KeyManager
      * @throws GeneralSecurityException if there is a problem creating the keystore
      * @throws IOException              if there is a problem creating the keystore
      */
     public static KeyManager createClientKeyManager(final String storeType, final File storePath, final String storePass, final String keyAlias,
             final String keyPass) throws IOException, GeneralSecurityException {
-        final KeyStore ks = loadStore(storeType, storePath, storePass);
-        return createClientKeyManager(ks, keyAlias, keyPass);
+        return createClientKeyManager(loadStore(storeType, storePath, storePass), keyAlias, keyPass);
     }
 
     private static String findAlias(final KeyStore ks) throws KeyStoreException {
@@ -211,15 +212,10 @@ public final class KeyManagerUtils {
         throw new KeyStoreException("Cannot find a private key entry");
     }
 
-    private static KeyStore loadStore(final String storeType, final File storePath, final String storePass)
-            throws KeyStoreException, IOException, GeneralSecurityException {
+    private static KeyStore loadStore(final String storeType, final File storePath, final String storePass) throws IOException, GeneralSecurityException {
         final KeyStore ks = KeyStore.getInstance(storeType);
-        FileInputStream stream = null;
-        try {
-            stream = new FileInputStream(storePath);
+        try (InputStream stream = new FileInputStream(storePath)) {
             ks.load(stream, storePass.toCharArray());
-        } finally {
-            Util.closeQuietly(stream);
         }
         return ks;
     }

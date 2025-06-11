@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,7 +42,7 @@ public final class RelayPath {
 
     /**
      * Add a mail relay host to the relay path. Hosts are added left to right. For example, the following will create the path
-     * {@code <b> &lt; @bar.com,@foo.com:foobar@foo.com &gt; </b>}
+     * {@code <strong> &lt; @bar.com,@foo.com:foobar@foo.com &gt; </strong>}
      *
      * <pre>
      * path = new RelayPath("foobar@foo.com");

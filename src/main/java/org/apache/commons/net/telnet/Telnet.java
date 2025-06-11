@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -76,19 +76,21 @@ class Telnet extends SocketClient {
      */
     static final byte[] COMMAND_AYT = { (byte) TelnetCommand.IAC, (byte) TelnetCommand.AYT };
 
+    static final char NUL = '\0';
+
     private final int[] doResponse;
 
     private final int[] willResponse;
 
     private final int[] options;
 
+    /* open TelnetOptionHandler functionality (end) */
+
     /**
      * Terminal type
      */
     private String terminalType;
     /* TERMINAL-TYPE option (end) */
-
-    /* open TelnetOptionHandler functionality (end) */
 
     /* open TelnetOptionHandler functionality (start) */
     /**
@@ -633,8 +635,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code DO} has been requested.
-     *
+     * @return true if a {@code DO} has been requested.
      * @param option   option code to be looked up.
      */
     boolean requestedDo(final int option) {
@@ -644,8 +645,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code DONT} has been requested
-     *
+     * @return true if a {@code DONT} has been requested
      * @param option   option code to be looked up.
      */
     boolean requestedDont(final int option) {
@@ -655,8 +655,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code WILL} has been requested
-     *
+     * @return true if a {@code WILL} has been requested
      * @param option   option code to be looked up.
      */
     boolean requestedWill(final int option) {
@@ -666,8 +665,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code WONT} has been requested
-     *
+     * @return true if a {@code WONT} has been requested
      * @param option   option code to be looked up.
      */
     boolean requestedWont(final int option) {
@@ -932,8 +930,8 @@ class Telnet extends SocketClient {
         final OutputStream spy = spyStream;
         if (spy != null) {
             try {
-                if (ch != '\r') // never write '\r' on its own
-                {
+                // never write '\r' on its own
+                if (ch != '\r') {
                     if (ch == '\n') {
                         spy.write('\r'); // add '\r' before '\n'
                     }
@@ -969,8 +967,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code DO} has been acknowledged.
-     *
+     * @return true if a {@code DO} has been acknowledged.
      * @param option   option code to be looked up.
      */
     boolean stateIsDo(final int option) {
@@ -980,8 +977,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code DONT} has been acknowledged
-     *
+     * @return true if a {@code DONT} has been acknowledged
      * @param option   option code to be looked up.
      */
     boolean stateIsDont(final int option) {
@@ -991,8 +987,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code WILL} has been acknowledged
-     *
+     * @return true if a {@code WILL} has been acknowledged
      * @param option   option code to be looked up.
      */
     boolean stateIsWill(final int option) {
@@ -1002,8 +997,7 @@ class Telnet extends SocketClient {
     /**
      * Looks for the state of the option.
      *
-     * @return returns true if a {@code WONT} has been acknowledged
-     *
+     * @return true if a {@code WONT} has been acknowledged
      * @param option   option code to be looked up.
      */
     boolean stateIsWont(final int option) {

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,10 +27,11 @@ import java.util.List;
  * implementation of FTPFileEntryParser and if necessary, subclass FTPFile.
  * <p>
  * Here are some examples showing how to use one of the classes that implement this interface.
+ * </p>
  * <p>
- *
  * The first example uses the {@code FTPClient.listFiles()} API to pull the whole list from the subfolder {@code subfolder} in one call, attempting to
  * automatically detect the parser type. This method, without a parserKey parameter, indicates that autodection should be used.
+ * </p>
  *
  * <pre>
  * FTPClient f = FTPClient();
@@ -58,8 +59,9 @@ import java.util.List;
  * f.login(user, password);
  * FTPFile[] files = f.listFiles("VMS", "subfolder/foo.java");
  * </pre>
- *
+ * <p>
  * For an alternative approach, see the {@link FTPListParseEngine} class which provides iterative access.
+ * </p>
  *
  * @see org.apache.commons.net.ftp.FTPFile
  * @see org.apache.commons.net.ftp.FTPClient#listFiles()
@@ -82,7 +84,6 @@ public interface FTPFileEntryParser {
      * The default implementation can be a no-op.
      *
      * @param original Original list after it has been created from the server stream
-     *
      * @return Original list as processed by this method.
      */
     List<String> preParse(List<String> original);
@@ -92,7 +93,6 @@ public interface FTPFileEntryParser {
      * particular ftp system being parsed. In many but not all cases, this can be defined simply by calling BufferedReader.readLine().
      *
      * @param reader The BufferedReader object from which entries are to be read.
-     *
      * @return A string representing the next ftp entry or null if none found.
      * @throws IOException thrown on any IO Error reading from the reader.
      */

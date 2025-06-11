@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -316,7 +316,6 @@ public class Base64 {
      * @param array          byte[] array which will later be encoded
      * @param lineSize      line-length of the output (<= 0 means no chunking) between each chunkSeparator (e.g. CRLF).
      * @param linkSeparator the sequence of bytes used to separate chunks of output (e.g. CRLF).
-     *
      * @return amount of space needed to encode the supplied array. Returns a long since a max-len array will require Integer.MAX_VALUE + 33%.
      */
     static long getEncodeLength(final byte[] array, int lineSize, final byte[] linkSeparator) {
@@ -369,7 +368,7 @@ public class Base64 {
     }
 
     /**
-     * Returns whether or not the {@code octet} is in the base 64 alphabet.
+     * Tests whether or not the {@code octet} is in the base 64 alphabet.
      *
      * @param octet The value to test
      * @return {@code true} if the value is defined in the base 64 alphabet, {@code false} otherwise.
@@ -601,8 +600,9 @@ public class Base64 {
     }
 
     @Override
-    public final void finalize() {
+    public final void finalize() throws Throwable {
         // CT: Be wary of letting constructors throw exceptions. (CT_CONSTRUCTOR_THROW)
+        super.finalize();
     }
 
     int getLineLength() {

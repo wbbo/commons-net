@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,6 +35,11 @@ public class FTPSSocketFactory extends SocketFactory {
 
     private final SSLContext context;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param context The SSL context.
+     */
     public FTPSSocketFactory(final SSLContext context) {
         this.context = context;
     }
@@ -43,7 +48,7 @@ public class FTPSSocketFactory extends SocketFactory {
      * @param port the port
      * @return the socket
      * @throws IOException on error
-     * @deprecated (2.2) use {@link FTPSServerSocketFactory#createServerSocket(int) instead}
+     * @deprecated (2.2) use {@link FTPSServerSocketFactory#createServerSocket(int)}.
      */
     @Deprecated
     public java.net.ServerSocket createServerSocket(final int port) throws IOException {
@@ -55,7 +60,7 @@ public class FTPSSocketFactory extends SocketFactory {
      * @param backlog the backlog
      * @return the socket
      * @throws IOException on error
-     * @deprecated (2.2) use {@link FTPSServerSocketFactory#createServerSocket(int, int) instead}
+     * @deprecated (2.2) use {@link FTPSServerSocketFactory#createServerSocket(int, int)}.
      */
     @Deprecated
     public java.net.ServerSocket createServerSocket(final int port, final int backlog) throws IOException {
@@ -68,7 +73,7 @@ public class FTPSSocketFactory extends SocketFactory {
      * @param ifAddress the interface
      * @return the socket
      * @throws IOException on error
-     * @deprecated (2.2) use {@link FTPSServerSocketFactory#createServerSocket(int, int, InetAddress) instead}
+     * @deprecated (2.2) use {@link FTPSServerSocketFactory#createServerSocket(int, int, InetAddress)}.
      */
     @Deprecated
     public java.net.ServerSocket createServerSocket(final int port, final int backlog, final InetAddress ifAddress) throws IOException {

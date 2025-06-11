@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,10 +30,11 @@ import org.apache.commons.net.util.NetConstants;
  * contained in one or more reply datagrams. The chargen and quote of the day protocols only send one reply datagram containing 512 bytes or fewer. The
  * other protocols may reply with more than one datagram, in which case you must wait for a timeout to determine that all reply datagrams have been sent.
  * <p>
- * To use the CharGenUDPClient class, just open a local UDP port with {@link org.apache.commons.net.DatagramSocketClient#open open } and call {@link #send send
- * } to send the datagram that will initiate the data reply. For chargen or quote of the day, just call {@link #receive receive }, and you're done. For netstat
+ * To use the CharGenUDPClient class, just open a local UDP port with {@link org.apache.commons.net.DatagramSocketClient#open open} and call {@link #send send
+ * } to send the datagram that will initiate the data reply. For chargen or quote of the day, just call {@link #receive receive}, and you're done. For netstat
  * and systat, call receive in a while loop, and catch a SocketException and InterruptedIOException to detect a timeout (don't forget to set the timeout
- * duration beforehand). Don't forget to call {@link org.apache.commons.net.DatagramSocketClient#close close() } to clean up properly.
+ * duration beforehand). Don't forget to call {@link org.apache.commons.net.DatagramSocketClient#close close()} to clean up properly.
+ * </p>
  *
  * @see CharGenTCPClient
  */

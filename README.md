@@ -6,7 +6,7 @@
  (the "License"); you may not use this file except in compliance with
  the License.  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,8 +44,8 @@ Apache Commons Net
 ===================
 
 [![Java CI](https://github.com/apache/commons-net/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-net/actions/workflows/maven.yml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/commons-net/commons-net/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/commons-net/commons-net/?gav=true)
-[![Javadocs](https://javadoc.io/badge/commons-net/commons-net/3.11.1.svg)](https://javadoc.io/doc/commons-net/commons-net/3.11.1)
+[![Maven Central](https://img.shields.io/maven-central/v/commons-net/commons-net?label=Maven%20Central)](https://search.maven.org/artifact/commons-net/commons-net)
+[![Javadocs](https://javadoc.io/badge/commons-net/commons-net/3.12.0.svg)](https://javadoc.io/doc/commons-net/commons-net/3.12.0)
 [![CodeQL](https://github.com/apache/commons-net/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-net/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-net/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-net)
 
@@ -63,20 +63,20 @@ Getting the latest release
 --------------------------
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-net/download_net.cgi).
 
-Alternatively, you can pull it from  the central Maven repositories:
+Alternatively, you can pull it from the central Maven repositories:
 
 ```xml
 <dependency>
   <groupId>commons-net</groupId>
   <artifactId>commons-net</artifactId>
-  <version>3.11.1</version>
+  <version>3.12.0</version>
 </dependency>
 ```
 
 Building
 --------
 
-Building requires a Java JDK and [Apache Maven](https://maven.apache.org/). 
+Building requires a Java JDK and [Apache Maven](https://maven.apache.org/).
 The required Java version is found in the `pom.xml` as the `maven.compiler.source` property.
 
 From a command shell, run `mvn` without arguments to invoke the default Maven goal to run all tests and checks.

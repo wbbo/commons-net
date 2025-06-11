@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,8 +30,10 @@ import org.apache.commons.net.util.NetConstants;
  * <p>
  * This class handles stripping of the duplicate period at the beginning of lines starting with a period, and ensures you cannot read past the end of the
  * message.
+ * </p>
  * <p>
  * Note: versions since 3.0 extend BufferedReader rather than Reader, and no longer change the CRLF into the local EOL. Also, only DOT CR LF acts as EOF.
+ * </p>
  */
 public final class DotTerminatedMessageReader extends BufferedReader {
     private static final char LF = '\n';
@@ -61,6 +63,7 @@ public final class DotTerminatedMessageReader extends BufferedReader {
      * If the end of the message has not yet been reached, this method will read the remainder of the message until it reaches the end, so that the underlying
      * stream may continue to be used properly for communicating with the server. If you do not fully read a message, you MUST close it, otherwise your program
      * will likely hang or behave improperly.
+     * </p>
      *
      * @throws IOException If an error occurs while reading the underlying stream.
      */
@@ -192,7 +195,7 @@ public final class DotTerminatedMessageReader extends BufferedReader {
     }
 
     /**
-     * Read a line of text. A line is considered to be terminated by carriage return followed immediately by a linefeed. This contrasts with BufferedReader
+     * Reads a line of text. A line is considered to be terminated by carriage return followed immediately by a linefeed. This contrasts with BufferedReader
      * which also allows other combinations.
      *
      * @since 3.0

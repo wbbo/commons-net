@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,8 @@ package org.apache.commons.net.nntp;
 
 /**
  * NewsgroupInfo stores information pertaining to a newsgroup returned by the NNTP GROUP, LIST, and NEWGROUPS commands, implemented by
- * {@link org.apache.commons.net.nntp.NNTPClient#selectNewsgroup selectNewsgroup } , {@link org.apache.commons.net.nntp.NNTPClient#listNewsgroups listNewsgroups
- * } , and {@link org.apache.commons.net.nntp.NNTPClient#listNewNewsgroups listNewNewsgroups } respectively.
+ * {@link org.apache.commons.net.nntp.NNTPClient#selectNewsgroup selectNewsgroup} , {@link org.apache.commons.net.nntp.NNTPClient#listNewsgroups listNewsgroups
+ * } , and {@link org.apache.commons.net.nntp.NNTPClient#listNewNewsgroups listNewNewsgroups} respectively.
  *
  * @see NNTPClient
  */
@@ -43,12 +43,29 @@ public final class NewsgroupInfo {
      */
     public static final int PROHIBITED_POSTING_PERMISSION = 3;
 
+    /**
+     * The empty array of this type.
+     */
+    static final NewsgroupInfo[] EMPTY_ARRAY = new NewsgroupInfo[0];
+
     private String newsgroup;
     private long estimatedArticleCount;
     private long firstArticle;
     private long lastArticle;
     private int postingPermission;
 
+    /**
+     * Constructs a new instance.
+     */
+    public NewsgroupInfo() {
+        // empty
+    }
+
+    /**
+     * Gets the estimated number of articles in the newsgroup. The accuracy of this value will depend on the server implementation.
+     *
+     * @return The estimated number of articles in the newsgroup.
+     */
     @Deprecated
     public int getArticleCount() {
         return (int) estimatedArticleCount;
@@ -63,6 +80,11 @@ public final class NewsgroupInfo {
         return estimatedArticleCount;
     }
 
+    /**
+     * Gets the number of the first article in the newsgroup.
+     *
+     * @return The number of the first article in the newsgroup.
+     */
     @Deprecated
     public int getFirstArticle() {
         return (int) firstArticle;
@@ -77,6 +99,11 @@ public final class NewsgroupInfo {
         return firstArticle;
     }
 
+    /**
+     * Gets the number of the last article in the newsgroup.
+     *
+     * @return The number of the last article in the newsgroup.
+     */
     @Deprecated
     public int getLastArticle() {
         return (int) lastArticle;

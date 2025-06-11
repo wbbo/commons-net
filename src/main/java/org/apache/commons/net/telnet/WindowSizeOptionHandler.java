@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -114,8 +114,8 @@ public class WindowSizeOptionHandler extends TelnetOptionHandler {
 
         response[0] = WINDOW_SIZE; // 1 //
 
-        for ( // 2 //
-                nIndex = 1, nShift = 24; nIndex < nResponseSize; nIndex++, nShift -= 8) {
+        // 2 //
+        for (nIndex = 1, nShift = 24; nIndex < nResponseSize; nIndex++, nShift -= 8) {
             nTurnedOnBits = 0xFF;
             nTurnedOnBits <<= nShift;
             response[nIndex] = (nCompoundWindowSize & nTurnedOnBits) >>> nShift;

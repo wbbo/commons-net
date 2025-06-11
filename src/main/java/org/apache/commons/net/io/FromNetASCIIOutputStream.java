@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,9 +27,9 @@ import java.io.OutputStream;
  * from NETASCII.
  * <p>
  * Because of the translation process, a call to {@code flush()} will not flush the last byte written if that byte was a carriage return. A call to
- * {@link #close close() }, however, will flush the carriage return.
+ * {@link #close close()}, however, will flush the carriage return.
+ * </p>
  */
-
 public final class FromNetASCIIOutputStream extends FilterOutputStream {
     private boolean lastWasCR;
 

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ import java.io.IOException;
 
 /**
  * NNTPConnectionClosedException is used to indicate the premature or unexpected closing of an NNTP connection resulting from a
- * {@link org.apache.commons.net.nntp.NNTPReply#SERVICE_DISCONTINUED NNTPReply.SERVICE_DISCONTINUED } response (NNTP reply code 400) to a failed NNTP command.
+ * {@link org.apache.commons.net.nntp.NNTPReply#SERVICE_DISCONTINUED NNTPReply.SERVICE_DISCONTINUED} response (NNTP reply code 400) to a failed NNTP command.
  * This exception is derived from IOException and therefore may be caught either as an IOException or specifically as an NNTPConnectionClosedException.
  *
  * @see NNTP

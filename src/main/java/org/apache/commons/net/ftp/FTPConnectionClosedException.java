@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,13 +21,12 @@ import java.io.IOException;
 
 /**
  * FTPConnectionClosedException is used to indicate the premature or unexpected closing of an FTP connection resulting from a
- * {@link org.apache.commons.net.ftp.FTPReply#SERVICE_NOT_AVAILABLE FTPReply.SERVICE_NOT_AVAILABLE } response (FTP reply code 421) to a failed FTP command. This
+ * {@link org.apache.commons.net.ftp.FTPReply#SERVICE_NOT_AVAILABLE FTPReply.SERVICE_NOT_AVAILABLE} response (FTP reply code 421) to a failed FTP command. This
  * exception is derived from IOException and therefore may be caught either as an IOException or specifically as an FTPConnectionClosedException.
  *
  * @see FTP
  * @see FTPClient
  */
-
 public class FTPConnectionClosedException extends IOException {
 
     private static final long serialVersionUID = 3500547241659379952L;

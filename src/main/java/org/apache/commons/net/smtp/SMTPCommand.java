@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ package org.apache.commons.net.smtp;
 /**
  * SMTPCommand stores a set of constants for SMTP command codes. To interpret the meaning of the codes, familiarity with RFC 821 is assumed. The mnemonic
  * constant names are transcriptions from the code descriptions of RFC 821. For those who think in terms of the actual SMTP commands, a set of constants such as
- * {@link #HELO HELO } are provided where the constant name is the same as the SMTP command.
+ * {@link #HELO HELO} are provided where the constant name is the same as the SMTP command.
  */
 public final class SMTPCommand {
 

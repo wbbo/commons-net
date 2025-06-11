@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,10 +25,11 @@ import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 
 /**
- * Implementation FTPFileEntryParser and FTPFileListParser for standard UNIX Systems.
- *
+ * Implementation FTPFileEntryParser and FTPFileListParser for standard Unix Systems.
+ * <p>
  * This class is based on the logic of Daniel Savarese's DefaultFTPListParser, but adapted to use regular expressions and to fit the new FTPFileEntryParser
  * interface.
+ * </p>
  *
  * @see org.apache.commons.net.ftp.FTPFileEntryParser FTPFileEntryParser (for usage instructions)
  */
@@ -57,18 +58,20 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
      * accommodate it, but do not make it the default.
      * <p>
      * For now end users may specify this format only via {@code UnixFTPEntryParser(FTPClientConfig)}. Steve Cohen - 2005-04-17
+     * </p>
      */
     public static final FTPClientConfig NUMERIC_DATE_CONFIG = new FTPClientConfig(FTPClientConfig.SYST_UNIX, NUMERIC_DATE_FORMAT, null);
 
     /**
      * this is the regular expression used by this parser.
-     *
+     * <p>
      * Permissions: r the file is readable w the file is writable x the file is executable - the indicated permission is not granted L mandatory locking occurs
      * during access (the set-group-ID bit is on and the group execution bit is off) s the set-user-ID or set-group-ID bit is on, and the corresponding user or
      * group execution bit is also on S undefined bit-state (the set-user-ID bit is on and the user execution bit is off) t the 1000 (octal) bit, or sticky bit,
      * is on [see chmod(1)], and execution is on T the 1000 bit is turned on, and execution is off (undefined bit-state) e z/OS external link bit. Final letter
      * may be appended: + file has extended security attributes (e.g. ACL) Note: local listings on MacOSX also use '@'; this is not allowed for here as does not
      * appear to be shown by FTP servers {@code @} file has extended attributes
+     * </p>
      */
     private static final String REGEX = "([bcdelfmpSs-])" // file type
             + "(((r|-)(w|-)([xsStTL-]))((r|-)(w|-)([xsStTL-]))((r|-)(w|-)([xsStTL-])))\\+?" // permissions
@@ -86,7 +89,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             + "\\s+" // separator
 
             /*
-             * numeric or standard format date: yyyy-mm-dd (expecting hh:mm to follow) MMM [d]d [d]d MMM N.B. use non-space for MMM to allow for languages such
+             * numeric or standard format date: yyyy-mm-dd (expecting hh:mm to follow) MMM [d]d [d]d MMM Use non-space for MMM to allow for languages such
              * as German which use diacritics (e.g. umlaut) in some abbreviations. Japanese uses numeric day and month with suffixes to distinguish them [d]dXX
              * [d]dZZ
              */
@@ -111,7 +114,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     final boolean trimLeadingSpaces; // package protected for access from test code
 
     /**
-     * The default constructor for a UnixFTPEntryParser object.
+     * Constructs a new instance.
      *
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen under normal conditions.
      *                                  If this exception is seen, this is a sign that {@code REGEX} is not a valid regular expression.
@@ -121,7 +124,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * This constructor allows the creation of a UnixFTPEntryParser object with something other than the default configuration.
+     * Constructs a new instance with something other than the default configuration.
      *
      * @param config The {@link FTPClientConfig configuration} object used to configure this parser.
      * @throws IllegalArgumentException Thrown if the regular expression is unparseable. Should not be seen under normal conditions.
@@ -148,7 +151,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * Defines a default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
+     * Gets a new default configuration to be used when this class is instantiated without a {@link FTPClientConfig FTPClientConfig} parameter being specified.
      *
      * @return the default configuration for this parser.
      */
@@ -158,7 +161,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
     }
 
     /**
-     * Parses a line of a unix (standard) FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the
+     * Parses a line of a Unix (standard) FTP server file listing and converts it into a usable format in the form of an {@code FTPFile} instance. If the
      * file listing line doesn't describe a file, {@code null} is returned, otherwise a {@code FTPFile} instance representing the files in the
      * directory is returned.
      *
@@ -177,7 +180,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             final String hardLinkCount = group(15);
             final String usr = group(16);
             final String grp = group(17);
-            final String filesize = group(18);
+            final String fileSize = group(18);
             final String datestr = group(19) + " " + group(20);
             String name = group(21);
             if (trimLeadingSpaces) {
@@ -247,7 +250,7 @@ public class UnixFTPEntryParser extends ConfigurableFTPFileEntryParserImpl {
             file.setGroup(grp);
 
             try {
-                file.setSize(Long.parseLong(filesize));
+                file.setSize(Long.parseLong(fileSize));
             } catch (final NumberFormatException e) {
                 // intentionally do nothing
             }
